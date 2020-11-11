@@ -1,0 +1,268 @@
+$tiny-width: 320px;
+$desktop-width: 1084px;
+
+@mixin mobile {
+  @media (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@function resolve($size) {
+  @return $size / 1.6;
+}
+
+// NOTE: rem(1) normally means 10px;
+@function rem($size) {
+  @if (abs($size) < .3) {
+    @return #{$size * 10}px;
+  }
+
+  @return #{resolve($size)}rem;
+}
+
+@mixin font-size($size) {
+  font-size: #{resolve($size)}px;
+  font-size: rem($size);
+}
+
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin horizontal-align($position: relative) {
+  position: $position;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin middle-align($position: relative) {
+  position: $position;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin padding-horizontal($size) {
+  padding-left: $size;
+  padding-right: $size;
+}
+
+@mixin padding-vertical($size) {
+  padding-top: $size;
+  padding-bottom: $size;
+}
+
+@mixin margin-horizontal($size) {
+  margin-left: $size;
+  margin-right: $size;
+}
+
+@mixin margin-vertical($size) {
+  margin-top: $size;
+  margin-bottom: $size;
+}
+
+@mixin triangle($size, $color, $direction: up) {
+  $visible-size: $size / 2;
+  width: 0;
+  height: 0;
+  border: none;
+
+  @if $direction == 'up' {
+    border-left: $visible-size solid transparent;
+    border-right: $visible-size solid transparent;
+    border-bottom: $visible-size solid $color;
+  } @else if $direction == 'down' {
+    border-left: $visible-size solid transparent;
+    border-right: $visible-size solid transparent;
+    border-top: $visible-size solid $color;
+  } @else if $direction == 'left' {
+    border-top: $visible-size solid transparent;
+    border-bottom: $visible-size solid transparent;
+    border-right: $visible-size solid $color;
+  } @else if $direction == 'right' {
+    border-top: $visible-size solid transparent;
+    border-bottom: $visible-size solid transparent;
+    border-left: $visible-size solid $color;
+  }
+}
+
+@mixin hide-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 0;
+    display: none !important;
+  }
+}
+
+@mixin overflow-scroll($direction) {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  @if $direction=='x' {
+    overflow-x: scroll;
+  }
+
+  @else if $direction=='y' {
+    overflow-y: scroll;
+  }
+
+  @else {
+    overflow: scroll;
+  }
+}
+
+@function vh($size) {
+  @return calc(var(--vh, 1vh) * #{$size});
+}
+
+@mixin angle($color, $width, $height, $direction: 'right') {
+  @if $direction == 'left' {
+    border-left: $width solid $color;
+    border-right: $width solid transparent;
+    border-top: $height solid transparent;
+    border-bottom: $height solid $color;
+  } @else if $direction == 'right' {
+    border-left: $width solid transparent;
+    border-right: $width solid $color;
+    border-top: $height solid transparent;
+    border-bottom: $height solid $color;
+  } @else {
+    @error
+  }
+}
+
+%fill-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+%default-container {
+  @include padding-vertical(rem(4));
+
+  @include mobile {
+    @include padding-vertical(rem(2));
+    padding-top: rem(4);
+  }
+}
+
+%narrow-container {
+  @include padding-vertical(rem(4));
+  max-width: rem(80);
+}
+
+%tiny-container {
+  @include padding-vertical(rem(4));
+  max-width: rem(60);
+}
+
+// $nav-size: rem(8);
+// $nav-size: rem(12.2);
+$nav-size: rem(12);
+$footer-size: rem(36);
+
+%min-height-except-nav-footer {
+  min-height: calc(100vh - #{$footer-size} - #{$nav-size});
+}
+
+%min-height-except-nav {
+  min-height: calc(100vh - #{$nav-size});
+}
+
+@function z($name) {
+  @if index($z-indexes, $name) {
+    @return ((length($z-indexes) - index($z-indexes, $name)) + 1) * 10;
+  } @else {
+    @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+    @return null;
+ }
+}
+
+$z-indexes: (
+  "Overlay",
+  "Drawer",
+  "Error",
+  "Chat",
+  "Navigation",
+  "Tooltip",
+  "AboveAll"
+);
+
+@mixin shadow($color, $horizontal-offset, $vertical-offset, $blur: 0, $spread: 0) {
+  @if not $color {
+    @error '$color must be provided';
+  }
+
+  @if not $horizontal-offset {
+    @error '$horizontal-offset must be provided';
+  }
+
+  @if not $vertical-offset {
+    @error '$vertical-offset must be provided';
+  }
+
+  box-shadow: $horizontal-offset $vertical-offset $blur $spread $color;
+}
+
+@mixin transition($props, $duration: .56s, $delay: 0s, $fn: cubic-bezier(0.52, 0.16, 0.24, 1)) {
+  $transition: ();
+  @for $i from 1 through length($props) {
+      @for $j from 0 to (length($props)) - (length($duration)) {
+          $duration: join($duration, nth($duration, -1));
+      }
+      @for $j from 0 to (length($props)) - (length($delay)) {
+          $delay: join($delay, nth($delay, -1));
+      }
+
+      $transition: append(
+          $transition,
+          (nth($props, $i) nth($duration, $i) $fn nth($delay, $i)),
+          $separator: comma
+      );
+  }
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+
+@mixin light {
+  html[data-theme="light"] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme="dark"]) & {
+      @content
+    }
+  }
+}
+
+@mixin dark {
+  html[data-theme="dark"] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) & {
+      @content
+    }
+  }
+}

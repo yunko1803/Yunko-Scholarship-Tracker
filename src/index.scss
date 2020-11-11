@@ -1,0 +1,522 @@
+@charset 'utf-8';
+
+@import "styles/colors";
+@import "styles/mixins";
+@import "styles/theme";
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/gilroy-extrabold-webfont.woff2') format('woff2'),
+       url('./assets/fonts/gilroy-extrabold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/gilroy-light-webfont.woff2') format('woff2'),
+       url('./assets/fonts/gilroy-light-webfont.woff') format('woff');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url('./assets/fonts/roboto-bold.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Roboto'), local('Roboto-Regular'), url('./assets/fonts/roboto.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+
+html, body {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  background-color: $dark-black;
+}
+
+body {
+  font-family: 'Roboto', 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif', 'sans-serif', 'Apple SD Gothic Neo', 'Helvetica Neue', 'Arial';
+
+  &.disableScroll {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+:root {
+  --theme-button-display: inline-block;
+  @include light-theme-scheme;
+
+  @media (prefers-color-scheme: light) {
+    @include light-theme-scheme;
+  }
+}
+
+html {
+  @include transition(background-color color, .15s);
+
+  &[data-theme="dark"] { @include dark-theme-scheme; }
+  &[data-theme="light"] { @include light-theme-scheme; }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation;
+
+  @include mobile {
+    font-size: 14px;
+  }
+
+  @media (max-width: $tiny-width) {
+    font-size: 12px;
+  }
+}
+
+.Noscript {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  background-color: rgba($pure-white, .5);
+  color: $primary;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: $gray;
+    text-decoration: none;
+  }
+}
+
+.Gilroy {
+  font-family: 'Gilroy', 'Roboto', 'Spoqa Han Sans', 'Spoqa Han Sans JP', Sans-Serif;
+  font-weight: bold;
+}
+
+.Gilroy--light {
+  font-family: 'Gilroy', 'Roboto', 'Spoqa Han Sans', 'Spoqa Han Sans JP', Sans-Serif;
+  font-weight: lighter;
+}
+
+.Spoqa {
+  font-family: 'Roboto', 'Spoqa Han Sans', 'Spoqa Han Sans JP', Sans-Serif;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.text-secondary {
+  color: $secondary !important;
+}
+
+.text-gray {
+  color: $gray !important;
+}
+
+.btn {
+  @include font-size(1.6);
+  padding: rem(1.4) rem(3.2);
+  line-height: rem(2.4);
+  border-radius: 0;
+
+  &:hover,
+  &:active {
+    border-color: none;
+    // border: 0;
+  }
+
+  &.disabled,
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.btn-sm {
+  @include font-size(1.4);
+  line-height: 1.5;
+  padding: rem(1) rem(1.5);
+}
+
+.btn-xs {
+  @include font-size(1.2);
+  line-height: 1.2;
+  padding: rem(.8) rem(1);
+}
+
+.btn-no-padding {
+  padding: 0;
+}
+
+.btn-kakao {
+  background-color: $kakao;
+  border-color: $kakao;
+
+  &:hover {
+    // background-color: darken($kakao, 5%);
+    border-color: darken($kakao, 5%);
+  }
+
+  &:active {
+    background-color: darken($kakao, 10%) !important;
+    border-color: darken($kakao, 10%) !important;
+  }
+}
+
+.btn-facebook {
+  background-color: $facebook-blue;
+  border-color: $facebook-blue;
+  color: $white;
+
+  > a {
+    color: $white;
+  }
+
+  &:hover {
+    background-color: darken($facebook-blue, 5%);
+    border-color: darken($facebook-blue, 5%);
+    color: $white;
+  }
+
+  &:active {
+    background-color: darken($facebook-blue, 10%) !important;
+    border-color: darken($facebook-blue, 10%) !important;
+    color: $white;
+  }
+}
+
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  color: $white;
+
+  &:hover {
+    background-color: darken($primary, 5%);
+    border-color: darken($primary, 5%);
+    color: $white;
+  }
+
+  &:active {
+    background-color: darken($primary, 10%) !important;
+    border-color: darken($primary, 10%) !important;
+    color: $white;
+  }
+
+  &:focus,
+  &:active,
+  &:not(:disabled):not(.disabled):active:focus, &:not(:disabled):not(.disabled).active:focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle:focus,
+  .show > .btn-primary.dropdown-toggle {
+    background-color: $primary;
+    border-color: $primary;
+    box-shadow: 0 0 0 rem(.2) rgba($primary, 0.5);
+    color: $white;
+  }
+
+  &.disabled,
+  &:disabled {
+    color: #fff;
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
+
+.btn-secondary {
+  background-color: $secondary;
+  border-color: $secondary;
+  color: $black;
+
+  &:hover {
+    background-color: darken($secondary, 5%);
+    border-color: darken($secondary, 5%);
+    color: $black;
+  }
+
+  &:active {
+    background-color: darken($secondary, 10%) !important;
+    border-color: darken($secondary, 10%);
+    color: $black;
+  }
+
+  &:focus,
+  &:active,
+  &:not(:disabled):not(.disabled):active:focus, &:not(:disabled):not(.disabled).active:focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle:focus,
+  .show > .btn-primary.dropdown-toggle {
+    background-color: $secondary;
+    border-color: $secondary;
+    box-shadow: 0 0 0 rem(.2) rgba($secondary, 0.5);
+    color: $black;
+  }
+
+  &.disabled,
+  &:disabled {
+    color: #fff;
+    background-color: $secondary;
+    border-color: $secondary;
+  }
+}
+
+.btn-dark {
+  background-color: $gray;
+  color: $white;
+
+  &:hover {
+    background-color: $gray-600;
+    color: $white;
+  }
+
+  &:active {
+    background-color: $gray-800 !important;
+    color: $white;
+  }
+
+  &:focus,
+  &:active,
+  &:not(:disabled):not(.disabled):active:focus, &:not(:disabled):not(.disabled).active:focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle:focus,
+  .show > .btn-primary.dropdown-toggle {
+    box-shadow: 0 0 0 rem(.2) rgba($gray-500-rgb, 0.5);
+    color: $white;
+  }
+}
+
+.btn-light {
+  background-color: $white;
+  color: $black;
+
+  &:hover {
+    background-color: $gray-200;
+    color: $black;
+  }
+
+  &:active {
+    background-color: $gray-300 !important;
+    color: $black;
+  }
+
+  &:focus,
+  &:active,
+  &:not(:disabled):not(.disabled):active:focus, &:not(:disabled):not(.disabled).active:focus,
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle:focus,
+  .show > .btn-primary.dropdown-toggle {
+    box-shadow: 0 0 0 rem(.2) rgba($pure-white, 0.5);
+    color: $black;
+  }
+}
+
+.btn-clear {
+  color: $white;
+  transition: color 150ms;
+
+  &.inverse {
+    color: $black;
+  }
+
+  &:hover {
+    color: $gray;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.badge-primary {
+  @extend .Gilroy;
+  background-color: $primary;
+
+  @include light {
+    color: $black;
+  }
+}
+
+.badge-secondary {
+  @extend .Gilroy;
+  background-color: $secondary;
+  color: $dark-gray;
+
+  @include light {
+    color: $white;
+  }
+}
+
+.badge-tertiary {
+  @extend .badge-primary;
+  background-color: $tertiary;
+}
+
+.badge-blue {
+  @extend .badge-primary;
+  background-color: $riot-blue;
+}
+
+.badge-red {
+  @extend .badge-primary;
+  background-color: $riot-red;
+}
+
+.hidden-in-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.hidden-in-desktop {
+  @include desktop {
+    display: none !important;
+  }
+}
+
+textarea,
+input,
+select {
+  &.form-control {
+    border-radius: 0;
+    border: 0;
+
+    &:focus {
+      color: $black;
+      background-color: $pure-white;
+      border-color: $secondary;
+      outline: 0;
+      box-shadow: 0 0 0 0rem(.2) rgba($secondary, 0.25);
+    }
+
+    &.bordered {
+      border: 1px solid $light-gray;
+
+      &:focus {
+        border-color: $secondary;
+      }
+    }
+  }
+}
+
+input {
+  &.form-control {
+    @include font-size(1.6);
+    display: block;
+    width: 100%;
+    line-height: 1.4rem;
+    height: 2 * 1.4rem;;
+    border: none;
+    overflow-y: hidden;
+
+    &:focus {
+      outline: none;
+    }
+
+  }
+
+  &[readonly] {
+    color: $white;
+    user-select: none;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+select {
+  &.form-control {
+    @include font-size(1.6);
+    display: block;
+    width: 100%;
+    overflow-y: hidden;
+    height: rem(2 * 2.2);
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1"><path d="M4 8L0 4h8z"/></svg>');
+    background-position: calc(100% - #{rem(1)}) 50%;
+    background-repeat: no-repeat;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.form-control-sm {
+      @include font-size(1.2);
+      height: rem(2);
+      padding: 0 rem(1.5) 0 rem(.5);
+      background-position: 100% 50%;
+    }
+  }
+}
+
+textarea {
+  &.form-control {
+    border: none;
+  }
+}
+
+.form-control, button {
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.invalid-feedback,
+.valid-feedback {
+  display: block !important;
+}
+
+h1 {
+  @include font-size(6);
+  @include margin-vertical(#{rem(3)});
+
+  @include mobile {
+    @include font-size(5);
+  }
+}
+
+h3 {
+  @include font-size(3.6);
+  @include margin-vertical(#{rem(2)});
+
+  @include mobile {
+    @include font-size(3);
+  }
+}
+
+h5 {
+  @include font-size(2.4);
+  @include margin-vertical(#{rem(1)});
+
+  @include mobile {
+    @include font-size(2);
+  }
+}
+
+video {
+  outline: none;
+}

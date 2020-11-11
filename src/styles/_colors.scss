@@ -1,0 +1,62 @@
+
+$white: var(--gray-100);
+$bright-gray: var(--gray-200);
+$light-gray: var(--gray-300);
+$slightly-light-gray: var(--gray-400);
+$gray: var(--gray-500);
+$dark-gray: var(--gray-600);
+$black: var(--gray-800);
+$dark-black: var(--gray-900);
+
+$gray-100: var(--gray-100);
+$gray-200: var(--gray-200);
+$gray-300: var(--gray-300);
+$gray-400: var(--gray-400);
+$gray-500: var(--gray-500);
+$gray-600: var(--gray-600);
+$gray-800: var(--gray-800);
+$gray-900: var(--gray-900);
+$gray-100-rgb: var(--gray-100-rgb);
+$gray-200-rgb: var(--gray-200-rgb);
+$gray-300-rgb: var(--gray-300-rgb);
+$gray-400-rgb: var(--gray-400-rgb);
+$gray-500-rgb: var(--gray-500-rgb);
+$gray-600-rgb: var(--gray-600-rgb);
+$gray-800-rgb: var(--gray-800-rgb);
+$gray-900-rgb: var(--gray-900-rgb);
+
+$text-color: var(--color-text);
+$background-color: var(--color-background);
+
+$pure-white: #fff;
+$pure-black: #000;
+$red: #f60c50;
+$red-hover: #f7215f;
+$red-press: #de0845;
+$green: #00c0a4;
+$green-hover: #00ccae;
+$green-press: #00b298;
+$blue: #1f85fd;
+$blue-hover: #3591fd;
+$blue-press: #0276fd;
+$purple: #9d35e4;
+$purple-hover: #a84be7;
+$purple-press: #841bca;
+
+$ruby: #db0442;
+$emerald: #01d1b2;
+$amethyst: #6000a1;
+$gold: #ffc502;
+
+$riot-blue: #4a90e2;
+$riot-red: #d0021b;
+$riot-gold: #c8aa6e;
+$facebook-blue: #4267b2;
+$kakao: #ffeb00;
+
+$primary: $ruby;
+$secondary: $emerald;
+$tertiary: $amethyst;
+$victory: $primary;
+$defeat: $gray;
+$default-background: $dark-black;
