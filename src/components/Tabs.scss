@@ -1,0 +1,13 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Tabs {
+  width: rem(80);
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.Tabs__Tab {
+  width: 100%;
+  border: rem(.1) solid $white;
+}

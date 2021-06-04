@@ -1,0 +1,67 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.ScholarInfo {
+  height: rem(5.7);
+  display: flex;
+  border-bottom: rem(.1) solid $white;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ScholarInfo__id {
+  flex: 6;
+  height: 100%;
+  border-right: rem(.1) solid $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ScholarInfo__name {
+  flex: 10;
+  height: 100%;
+  border-right: rem(.1) solid $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ScholarInfo__SLP {
+  flex: 53;
+  height: 100%;
+  border-right: rem(.1) solid $white;
+  display: flex;
+}
+
+  .ScholarInfo__SLP__detail {
+    display: flex;
+    flex: 1;
+    border-right: rem(.1) solid $white;
+    justify-content: center;
+    align-items: center;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+.ScholarInfo__claimed {
+  flex: 16;
+  height: 100%;
+  border-right: rem(.1) solid $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ScholarInfo__action {
+  flex: 13;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

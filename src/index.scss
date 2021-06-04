@@ -69,7 +69,7 @@ html {
   @include transition(background-color color, .15s);
 
   &[data-theme="dark"] { @include dark-theme-scheme; }
-  &[data-theme="light"] { @include light-theme-scheme; }
+  // &[data-theme="light"] { @include light-theme-scheme; }
 }
 
 html, body {
