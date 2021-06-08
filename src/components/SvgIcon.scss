@@ -1,0 +1,10 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.SvgIcon {
+  path {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    transition: fill 150ms;
+  }
+}

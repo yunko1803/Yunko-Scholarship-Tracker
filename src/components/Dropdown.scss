@@ -1,0 +1,75 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Dropdown {
+  cursor: pointer;
+}
+
+.Dropdown__button {
+  @include transition(background-color, .25s);
+  border: 1px solid $dark-gray;
+  background-color: $black;
+  border-radius: rem(0.2);
+  overflow: hidden;
+  width: rem(12);
+  height: rem(4);
+  padding-left: rem(1.5);
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba($gray-600-rgb, 0.75);
+  }
+}
+
+.Dropdown__list {
+  @include transition(opacity max-height background-color, .44s .56s);
+  @include hide-scrollbar;
+  width: 100%;
+  top: calc(100% + #{rem(.5)});
+  position: absolute;
+  max-height: 0;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: $black;
+  border-radius: rem(0.2);
+  z-index: z(Drawer);
+  border: 1px solid $black;
+  opacity: 0;
+  -ms-overflow-style: none;
+
+  &--open {
+    border-color: $dark-gray;
+    max-height: rem(30);
+    overflow-y: auto;
+    opacity: 1;
+  }
+}
+
+  .Dropdown__list__item {
+    @include transition(background-color, .25s);
+
+    &:hover:not(&--selected) {
+      background-color: rgba($gray-600-rgb, 0.75);
+    }
+
+    &--selected {
+      background-color: $red;
+
+      @include light {
+        color: $black;
+      }
+    }
+  }
+
+.Dropdown__icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: rem(.5);
+  margin: auto 0;
+  pointer-events: none;
+  color: $text-color;
+}

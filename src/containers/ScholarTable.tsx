@@ -11,9 +11,11 @@ type Props = {
   className?: string;
   group: string;
   scholars: Scholar[];
+  onClickDeleteScholar: (scholar: Scholar) => void;
+  propagateData: (data: any) => void;
 };
 
-const ScholarsTable: React.FC<Props> = ({ className, group, scholars }) => {
+const ScholarTable: React.FC<Props> = ({ className, group, scholars, onClickDeleteScholar, propagateData }) => {
   // const { data } = useSWR<Data[]>(scholars.map(s => s.name).join(';'), loadData)
 
   return (
@@ -21,6 +23,9 @@ const ScholarsTable: React.FC<Props> = ({ className, group, scholars }) => {
       <ScholarTableHeader />
       <ScholarList
         scholars={scholars}
+        onClickDeleteScholar={onClickDeleteScholar}
+        propagateData={propagateData}
+        group={group}
       />
     </div>
   );
@@ -44,4 +49,4 @@ const ScholarsTable: React.FC<Props> = ({ className, group, scholars }) => {
   // }
 };
 
-export default ScholarsTable;
+export default ScholarTable;

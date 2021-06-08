@@ -1,0 +1,73 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+$normal: rem(4);
+$small: rem(3);
+$tiny: rem(2);
+
+.Close {
+  position: relative;
+  cursor: pointer;
+  width: $normal;
+  height: $normal;
+  transition: opacity 150ms;
+
+  &.dark {
+    &:before, &:after {
+      background-color: $gray;
+    }
+  }
+
+  &.clickable {
+    opacity: .5;
+  }
+
+  &.small {
+    width: $small;
+    height: $small;
+
+    &:before,
+    &:after {
+      width: 2px;
+      height: $small;
+    }
+  }
+
+  &.tiny {
+    width: $tiny;
+    height: $tiny;
+
+    &:before,
+    &:after {
+      width: 2px;
+      height: $tiny;
+    }
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:before, &:after {
+    position: absolute;
+    display: block;
+    content: ' ';
+    height: $normal;
+    width: 3px;
+    background-color: $white;
+    left: 50%;
+    top: 50%;
+
+    @include mobile {
+      height: 3rem;
+    }
+  }
+
+  &:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

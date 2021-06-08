@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './pages/App';
+import App from './pages/App'
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { CookiesProvider } from "react-cookie";
 
-ReactDOM.render(
+const rootElement = document.getElementById('root') as HTMLElement;
+const render = rootElement.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
+
+render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <Router>
+        <App />
+      </Router>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

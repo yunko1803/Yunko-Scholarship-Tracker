@@ -1,0 +1,95 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Account {
+  color: $white;
+  width: rem(50);
+}
+
+  .Account__title {
+    margin-top: rem(1.5);
+    font-size: rem(2.5);
+  }
+
+  .Account__tab {
+    display: flex;
+    justify-content: space-around;
+    height: rem(5);
+    background-color: $gray-600;
+  }
+
+    .Account__tab__login {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: .5;
+
+      &--selected {
+        background-color: $black;
+        opacity: 1;
+      }
+    }
+
+    .Account__tab__register {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: .5;
+
+      &--selected {
+        background-color: $black;
+        opacity: 1;
+      }
+    }
+
+  .Account__inputs {
+    display: flex;
+    flex-direction: column;
+    margin-top: rem(2.5);
+    margin-left: rem(2.5);
+    margin-right: rem(2.5);
+  }
+
+    .Account__inputs__email {
+      height: rem(4);
+      margin-bottom: rem(2);
+      text-indent: rem(2);
+    }
+
+    .Account__inputs__name {
+      height: rem(4);
+      margin-bottom: rem(2);
+      text-indent: rem(2);
+    }
+
+    .Account__inputs__password {
+      height: rem(4);
+      margin-bottom: rem(2);
+      text-indent: rem(2);
+
+      &:focus {
+        border: none;
+      }
+    }
+
+  .Account__error {
+    color: $red;
+    margin-bottom: rem(2);
+  }
+
+  .Account__button {
+    width: 100%;
+    height: rem(4);
+    margin-bottom: rem(2);
+    cursor: pointer;
+    background-color: $blue;
+    border: none;
+    border-radius: rem(.2);
+    color: $black;
+  }
