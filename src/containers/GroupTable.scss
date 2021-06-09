@@ -1,9 +1,8 @@
 @import "../styles/mixins";
 @import "../styles/colors";
 
-.ScholarTable {
-  width: rem(81);
+.GroupTable {
+  width: 85%;
   border-radius: rem(.3);
   border: rem(.1) solid $white;
-  margin-bottom: rem(3);
 }

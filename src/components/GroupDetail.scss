@@ -2,4 +2,13 @@
 @import "../styles/colors";
 
 .GroupDetail {
+  padding: rem(2);
+  width: rem(50);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+  .GroupDetail__title {
+    font-size: rem(4);
+  }

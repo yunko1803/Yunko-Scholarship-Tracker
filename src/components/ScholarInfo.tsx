@@ -26,7 +26,10 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
   }
 
   return (
-    <div className={classNames('ScholarInfo', className)}>
+    <div
+      className={classNames('ScholarInfo', className)}
+      style={{order: -data.totalSLP}}
+    >
       <div className="ScholarInfo__id">
         {index + 1}
       </div>

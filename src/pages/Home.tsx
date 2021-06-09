@@ -5,14 +5,17 @@ import { useCookies } from "react-cookie";
 import { db, firebase } from '../utils/db';
 import lodash from 'lodash';
 import ScholarTable from '../containers/ScholarTable';
-import { Scholar, IGroup } from '../models/index';
+import { Scholar, IGroup, IManager } from '../models/index';
 import ScholarInput from '../components/ScholarInput';
 import Account from '../components/Account';
 import WithModal from '../enhancers/withModal';
 import Dropdown from '../components/Dropdown';
 import Statistic from '../components/Statistic';
+import GroupDetail from '../components/GroupDetail';
+import { useStateWithPartialSetter } from '../hooks/utils';
 
 const AccountWithModal = WithModal(Account);
+const GroupDetailWithModal = WithModal(GroupDetail);
 
 declare global {
   interface Window { propagateQueue: any; }
@@ -30,21 +33,12 @@ function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.user);
   const [manager, setManager] = useState('');
   const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [toggleGroupDetail, setToggleGroupDetail] = useState(false);
+  // const [state, setSelected] = useStateWithPartialSetter<{}>({
+  //   manager: '',
+  // });
+  const [managerDBId, setManagerDbId] = useState('');
   const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
-
-  useEffect(() => {
-    //supposed to be uid
-    db.collection('managers').where('uid', '==', cookies.user ?? '').get()
-      .then((querySnapShot) => {
-        querySnapShot.forEach((doc) => {
-          const manager = doc.data().name;
-          const ownerGroups = doc.data().groups;
-          setManager(manager);
-          setGroups(ownerGroups);
-          setGroupId(ownerGroups[0].id);
-        });
-      });
-  }, []);
 
   useEffect(() => {
     db.collection('scholars').where('uid', '==', cookies.user ?? '').where('groupId', '==', groupId).get()
@@ -67,6 +61,7 @@ function Home() {
         querySnapShot.forEach((doc) => {
           const manager = doc.data().name;
           const ownerGroups = doc.data().groups;
+          setManagerDbId(doc.id);
           setManager(manager);
           setGroups(ownerGroups);
           setGroupId(ownerGroups[0].id);
@@ -107,11 +102,14 @@ function Home() {
           onChange={handleGroup}
         />
         <h1 className="Home__title__h1">group {findGroupName(groupId)}</h1>
-        <button
-          className="Home__title__button"
-        >
-          Add Group
-        </button>
+        {isLoggedIn && (
+          <button
+            onClick={() => setToggleGroupDetail(true)}
+            className="Home__title__button"
+          >
+            Add Group
+          </button>
+        )}
       </div>
 
       <Statistic
@@ -141,8 +139,25 @@ function Home() {
           onClickLoginLoading={() => setIsLoginLoading(true)}
         />
       )}
+
+      {isLoggedIn && (
+        <GroupDetailWithModal
+          theme="dark"
+          isVisible={toggleGroupDetail}
+          onClickClose={onClickCloseModal}
+          groups={groups}
+          manager={manager}
+          uid={cookies.user}
+          dbId={managerDBId}
+          onClickEditGroup={onClickEditGroup}
+        />
+      )}
     </div>
   );
+
+  function onClickEditGroup(newGroups: IGroup[]) {
+    setGroups(newGroups);
+  }
 
   function handleGroup(groupName: string) {
     const selectedGroup = lodash.find(groups, (group) => group.name === groupName);
@@ -163,6 +178,7 @@ function Home() {
 
   function onClickCloseModal() {
     setToggleLogin(false);
+    setToggleGroupDetail(false);
   }
 
   function onClickOpenModal() {

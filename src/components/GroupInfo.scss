@@ -2,4 +2,50 @@
 @import "../styles/colors";
 
 .GroupInfo {
+  display: flex;
+  height: rem(5);
+  border-bottom: rem(.1) solid $white;
+  border-top: rem(.1) solid $white;
+  margin-top: rem(-.1);
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
+
+  .GroupInfo__id {
+    flex: .5;
+    height: 100%;
+    border-right: rem(.1) solid $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .GroupInfo__name {
+    flex: 1;
+    height: 100%;
+    border-right: rem(.1) solid $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .GroupInfo__total {
+    flex: 1;
+    height: 100%;
+    border-right: rem(.1) solid $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .GroupInfo__delete {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: $blue;
+  }

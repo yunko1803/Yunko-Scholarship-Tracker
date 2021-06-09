@@ -1,3 +1,5 @@
+import './ScholarList.scss';
+
 import React from 'react';
 import classNames from 'classnames';
 import { IGroup, Scholar } from '../models';

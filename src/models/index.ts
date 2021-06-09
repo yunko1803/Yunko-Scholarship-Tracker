@@ -22,3 +22,9 @@ export interface IGroup {
   id: string;
   name: string;
 }
+
+export interface IManager {
+  groups: IGroup[],
+  name: string,
+  uid: string,
+}

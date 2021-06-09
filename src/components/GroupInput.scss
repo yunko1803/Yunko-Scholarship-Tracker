@@ -1,0 +1,25 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.GroupInput {
+  @include margin-vertical(rem(2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+
+  .GroupInput__input {
+    width: 60%;
+    height: rem(3);
+    text-indent: rem(1.5);
+    margin-bottom: rem(1);
+  }
+
+  .GroupInput__button {
+    height: rem(3);
+    width: rem(8);
+    border: none;
+    background-color: $kakao;
+    border-radius: rem(.2);
+  }
