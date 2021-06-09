@@ -3,19 +3,19 @@ import './ScholarTable.scss';
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import ScholarTableHeader from './ScholarTableHeader';
-import { Scholar } from '../models/index';
+import { IGroup, Scholar } from '../models/index';
 import useSWR from 'swr';
 import ScholarList from './ScholarList';
 
 type Props = {
   className?: string;
-  group: string;
+  groupId: string;
   scholars: Scholar[];
   onClickDeleteScholar: (scholar: Scholar) => void;
   propagateData: (data: any) => void;
 };
 
-const ScholarTable: React.FC<Props> = ({ className, group, scholars, onClickDeleteScholar, propagateData }) => {
+const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, onClickDeleteScholar, propagateData }) => {
   // const { data } = useSWR<Data[]>(scholars.map(s => s.name).join(';'), loadData)
 
   return (
@@ -25,7 +25,7 @@ const ScholarTable: React.FC<Props> = ({ className, group, scholars, onClickDele
         scholars={scholars}
         onClickDeleteScholar={onClickDeleteScholar}
         propagateData={propagateData}
-        group={group}
+        groupId={groupId}
       />
     </div>
   );

@@ -3,8 +3,9 @@ import './Home.scss';
 import React, { useState, useEffect } from 'react';
 import { useCookies } from "react-cookie";
 import { db, firebase } from '../utils/db';
+import lodash from 'lodash';
 import ScholarTable from '../containers/ScholarTable';
-import { Scholar } from '../models/index';
+import { Scholar, IGroup } from '../models/index';
 import ScholarInput from '../components/ScholarInput';
 import Account from '../components/Account';
 import WithModal from '../enhancers/withModal';
@@ -19,8 +20,8 @@ declare global {
 
 function Home() {
   const [cookies, setCookie] = useCookies(['user']);
-  const [groups, setGroups] = useState([]);
-  const [group, setGroup] = useState('');
+  const [groups, setGroups] = useState<IGroup[]>([]);
+  const [groupId, setGroupId] = useState('');
   const [data, setData] = useState<Record<string, any>>({});
   const [scholars, setScholars] = useState<Scholar[]>([]);
   const [toggleLogin, setToggleLogin] = useState(false);
@@ -28,8 +29,8 @@ function Home() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.user);
   const [manager, setManager] = useState('');
-  const scholarsByGroup = Object.values(data).filter(data => data.group === group);
-  console.log(manager);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
 
   useEffect(() => {
     //supposed to be uid
@@ -37,22 +38,16 @@ function Home() {
       .then((querySnapShot) => {
         querySnapShot.forEach((doc) => {
           const manager = doc.data().name;
-          setManager(manager);
-        });
-      });
-
-    db.collection('groups').where('uid', '==', cookies.user ?? '').get()
-      .then((querySnapShot) => {
-        querySnapShot.forEach((doc) => {
           const ownerGroups = doc.data().groups;
+          setManager(manager);
           setGroups(ownerGroups);
-          setGroup(ownerGroups[0]);
+          setGroupId(ownerGroups[0].id);
         });
       });
   }, []);
 
   useEffect(() => {
-    db.collection('scholars').where('uid', '==', cookies.user ?? '').where('group', '==', group).get()
+    db.collection('scholars').where('uid', '==', cookies.user ?? '').where('groupId', '==', groupId).get()
       .then((querySnapShot) => {
         let ary: Scholar[] = [];
         querySnapShot.forEach((doc) => {
@@ -62,8 +57,8 @@ function Home() {
           });
         });
         setScholars(ary);
-      })
-  }, [group]);
+      });
+  }, [groupId]);
 
   useEffect(() => {
     setIsLoggedIn(cookies.user);
@@ -71,15 +66,10 @@ function Home() {
       .then((querySnapShot) => {
         querySnapShot.forEach((doc) => {
           const manager = doc.data().name;
-          setManager(manager);
-        });
-      });
-    db.collection('groups').where('uid', '==', cookies.user ?? '').get()
-      .then((querySnapShot) => {
-        querySnapShot.forEach((doc) => {
           const ownerGroups = doc.data().groups;
+          setManager(manager);
           setGroups(ownerGroups);
-          setGroup(ownerGroups[0]);
+          setGroupId(ownerGroups[0].id);
         });
       });
   }, [cookies])
@@ -113,10 +103,15 @@ function Home() {
       <div className="Home__title">
         <Dropdown
           className="Home__title__dropdown"
-          items={groups}
-          onChange={setGroup}
+          items={lodash.isEmpty(groups) ? [] : groups.map((group) => group.name)}
+          onChange={handleGroup}
         />
-        <h1 className="Home__title__h1">group {group}</h1>
+        <h1 className="Home__title__h1">group {findGroupName(groupId)}</h1>
+        <button
+          className="Home__title__button"
+        >
+          Add Group
+        </button>
       </div>
 
       <Statistic
@@ -125,7 +120,7 @@ function Home() {
       />
 
       <ScholarTable
-        group={group}
+        groupId={groupId}
         scholars={scholars}
         onClickDeleteScholar={deleteScholar}
         propagateData={propagateData}
@@ -142,10 +137,24 @@ function Home() {
           register={register}
           error={errorMessage}
           onClickResetError={() => setErrorMessage('')}
+          isLoginLoading={isLoginLoading}
+          onClickLoginLoading={() => setIsLoginLoading(true)}
         />
       )}
     </div>
   );
+
+  function handleGroup(groupName: string) {
+    const selectedGroup = lodash.find(groups, (group) => group.name === groupName);
+    setGroupId(selectedGroup!.id);
+  }
+
+  function findGroupName(groupId: string) {
+    if (lodash.isEmpty(groups) || !groupId) return '';
+
+    const selectedGroup = groups.filter(group => group.id === groupId);
+    return selectedGroup[0].name;
+  }
 
   function propagateData(scholarData: any) {
     setData({ ...data, ...window.propagateQueue });
@@ -162,17 +171,21 @@ function Home() {
 
   function addScholar(scholar: Scholar) {
     db.collection('scholars').add({
-      group: scholar.group,
+      groupId: scholar.groupId,
       name: scholar.name,
       uid: cookies.user,
       walletAddress: scholar.walletAddress,
     })
     .then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
-      scholars.push({
-        ...scholar,
+      const newScholars = [...scholars, {
+        groupId: scholar.groupId,
+        name: scholar.name,
+        uid: cookies.user,
+        walletAddress: scholar.walletAddress,
         scholarId: docRef.id,
-      })
+      }];
+      setScholars(newScholars);
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -202,11 +215,14 @@ function Home() {
         var user = userCredential.user;
         handleCookie(user!.uid);
         setToggleLogin(false);
+        setIsLoginLoading(false);
+        setErrorMessage('');
         // ...
       })
       .catch(error => {
         console.log(error.message);
         setErrorMessage(error.message);
+        setIsLoginLoading(false);
     })
   }
 
@@ -214,6 +230,8 @@ function Home() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setToggleLogin(false);
+        setIsLoginLoading(false);
+        setErrorMessage('');
         // Signed in
         var user = userCredential.user;
         handleCookie(user!.uid);
@@ -231,6 +249,7 @@ function Home() {
       .catch(error => {
         console.log(error.message);
         setErrorMessage(error.message);
+        setIsLoginLoading(false);
     });
   }
 
@@ -243,6 +262,7 @@ function Home() {
       setGroups([]);
       setData({});
       setScholars([]);
+      setGroupId('');
     }, function(error) {
       console.log(error);
     });

@@ -2,9 +2,10 @@ import './ScholarInfo.scss';
 
 import React from 'react';
 import classNames from 'classnames';
-import { Scholar, IScholarInfo } from '../models';
+import { Scholar, IScholarInfo, IGroup } from '../models';
 import useSWR from 'swr';
 import { get } from '../apis/request';
+import Loading from './Loading';
 
 type Props = {
   className?: string;
@@ -12,16 +13,16 @@ type Props = {
   index: number;
   onClickDeleteScholar: (scholar: Scholar) => void;
   propagateData: (data: any) => void;
-  group: string;
+  groupId: string;
 };
 
-const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDeleteScholar, propagateData, group }) => {
+const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDeleteScholar, propagateData, groupId }) => {
   const { data } = useSWR<IScholarInfo>(`https://lunacia.skymavis.com/game-api/clients/${scholar.walletAddress}/items?offset=0&limit=1`, loadScholar);
 
   if (!data) {
     return (
-      <div>Loading</div>
-    )
+      <Loading className="ScholarInfo__loading" />
+    );
   }
 
   return (
@@ -67,7 +68,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
     const difference = Math.abs(today.getTime() - scholarData.last_claimed_item_at * 1000) / 86400000;
     const differenceDays = Math.floor(difference) + 1;
     const averageSLP = Math.floor((scholarData.total - scholarData.claimable_total) / differenceDays);
-    const scholarInfo = { ...scholarData, group, averageSLP, name: scholar.name };
+    const scholarInfo = { ...scholarData, groupId, averageSLP, name: scholar.name };
     window.propagateQueue = { ...window.propagateQueue, [scholarData.client_id]: scholarInfo };
     propagateData(window.propagateQueue);
 

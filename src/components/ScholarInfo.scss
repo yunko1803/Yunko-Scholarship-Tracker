@@ -5,10 +5,19 @@
   height: rem(5.7);
   display: flex;
   border-bottom: rem(.1) solid $white;
+  border-top: rem(.1) solid $white;
+  margin-top: rem(-.1);
 
   &:last-child {
     border-bottom: none;
   }
+}
+
+.ScholarInfo__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem(5.7);
 }
 
 .ScholarInfo__id {

@@ -19,6 +19,7 @@
   }
 
 .Home__title {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -33,4 +34,16 @@
   .Home__title__h1 {
     flex: 1;
     align-self: center;
+  }
+
+  .Home__title__button {
+    position: absolute;
+    right: 0;
+    background-color: #86FBDF;
+    border: none;
+    height: rem(4);
+    border-radius: rem(.2);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    cursor: pointer;
+    width: rem(10);
   }

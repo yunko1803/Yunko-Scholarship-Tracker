@@ -3,13 +3,14 @@ import './ScholarInput.scss';
 import React from 'react';
 import classNames from 'classnames';
 import web3 from 'web3';
+import lodash from 'lodash';
 import { useCookies } from "react-cookie";
 import Dropdown from './Dropdown';
-import { Scholar } from '../models';
+import { IGroup, Scholar } from '../models';
 
 type Props = {
   className?: string;
-  groups: string[];
+  groups: IGroup[];
   addScholar: (scholar: Scholar) => void;
   onClickLogin: () => void;
 };
@@ -17,7 +18,7 @@ type Props = {
 const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickLogin }) => {
   const [name, setName] = React.useState('');
   const [address, setAddress] = React.useState('');
-  const [group, setGroup] = React.useState(groups[0]);
+  const [group, setGroup] = React.useState(lodash.isEmpty(groups) ? '' : groups[0].name);
   const [cookies] = useCookies(['user']);
 
   return (
@@ -25,7 +26,7 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
       <div className="ScholarInput__first">
         <Dropdown
           className="ScholarInput__first__group"
-          items={groups}
+          items={lodash.isEmpty(groups) ? [] : groups.map((group) => group.name)}
           onChange={setGroup}
           onClick={openModalClick}
         />
@@ -62,11 +63,15 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
   }
 
   function handleChangeName(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!cookies.user) return;
+
     const name = e.target.value;
     setName(name);
   }
 
   function handleChangeAddress(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!cookies.user) return;
+
     const walletAddress = e.target.value;
     setAddress(walletAddress);
   }
@@ -77,10 +82,11 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
       return;
     }
 
+    const selectedGroup = groups.filter(singleGroup => singleGroup.name === group);
 
     addScholar({
       name,
-      group,
+      groupId: selectedGroup[0].id,
       walletAddress: address,
     });
     setName('');

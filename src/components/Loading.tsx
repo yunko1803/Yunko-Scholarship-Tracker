@@ -11,7 +11,7 @@ type Props = {
 const Loading: React.FC<Props> = ({ className }) => {
   return (
     <div className={classNames('Loading', className)}>
-      <Spinner radius={40} color={"#333"} stroke={2} visible={true} />
+      <Spinner radius={30} color={"#333"} stroke={2} visible={true} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Scholar } from '../models';
+import { IGroup, Scholar } from '../models';
 import ScholarInfo from '../components/ScholarInfo';
 
 type Props = {
@@ -8,10 +8,10 @@ type Props = {
   scholars: Scholar[];
   onClickDeleteScholar: (scholar: Scholar) => void;
   propagateData: (data: any) => void;
-  group: string;
+  groupId: string;
 };
 
-const ScholarList: React.FC<Props> = ({ className, scholars, onClickDeleteScholar, propagateData, group, }) => {
+const ScholarList: React.FC<Props> = ({ className, scholars, onClickDeleteScholar, propagateData, groupId, }) => {
 
   return (
     <div className={classNames('ScholarList', className)}>
@@ -22,7 +22,7 @@ const ScholarList: React.FC<Props> = ({ className, scholars, onClickDeleteSchola
           scholar={scholar}
           onClickDeleteScholar={onClickDeleteScholar}
           propagateData={propagateData}
-          group={group}
+          groupId={groupId}
         />
       ))}
     </div>

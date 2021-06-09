@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import './Account.scss';
+import Loading from './Loading';
 
 type Props = {
   className?: string;
@@ -11,9 +12,11 @@ type Props = {
   register: (email: string, password: string, name: string) => void;
   error: string;
   onClickResetError: () => void;
+  onClickLoginLoading: () => void;
+  isLoginLoading: boolean;
 };
 
-const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, login, register, error, onClickResetError }) => {
+const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, login, register, error, onClickResetError, onClickLoginLoading, isLoginLoading }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
@@ -68,11 +71,16 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
           </div>
         )}
 
-        <input
-          className="Account__button"
-          type="submit"
-          value={loginType}
-        />
+        {!isLoginLoading ? (
+          <input
+            className="Account__button"
+            type="submit"
+            value={loginType}
+          />
+        ) : (
+          <Loading className="Account__loading" />
+        )}
+
       </form>
     </div>
   );
@@ -87,6 +95,7 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
 
   function onClickAuthentication(e: React.SyntheticEvent) {
     e.preventDefault();
+    onClickLoginLoading();
 
     if (loginType === 'Login') {
       login(email, password);
