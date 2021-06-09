@@ -2,7 +2,7 @@ import './ScholarInfo.scss';
 
 import React from 'react';
 import classNames from 'classnames';
-import { Scholar, IScholarInfo, IGroup } from '../models';
+import { Scholar, IScholarInfo } from '../models';
 import useSWR from 'swr';
 import { get } from '../apis/request';
 import Loading from './Loading';

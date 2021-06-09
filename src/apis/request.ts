@@ -43,7 +43,7 @@ function _getApiPath(path: string): string {
 
 // export const get = async <T>(url: string, query?: any, options: RequestInit = {}): Promise<T> => {
 export async function get<T>(url: string, query?: any, options: RequestInit = {}): Promise<T> {
-  const requestUri = compactJoin([getApiUrl(url), query && `?${stringify(query)}`], '');
+  // const requestUri = compactJoin([getApiUrl(url), query && `?${stringify(query)}`], '');
 
   const result = await fetch(url, {
     ...options,

@@ -1,10 +1,9 @@
 import './ScholarTable.scss';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import ScholarTableHeader from './ScholarTableHeader';
-import { IGroup, Scholar } from '../models/index';
-import useSWR from 'swr';
+import { Scholar } from '../models/index';
 import ScholarList from './ScholarList';
 
 type Props = {

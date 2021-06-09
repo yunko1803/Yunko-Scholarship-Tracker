@@ -1,6 +1,5 @@
 import { flow, compact, join, memoize as memoizeFp } from 'lodash/fp';
 import { SyntheticEvent } from 'react';
-import { flatMap } from 'lodash';
 
 const A_SECOND = 60
 

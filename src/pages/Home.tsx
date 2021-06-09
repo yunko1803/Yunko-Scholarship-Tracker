@@ -5,14 +5,14 @@ import { useCookies } from "react-cookie";
 import { db, firebase } from '../utils/db';
 import lodash from 'lodash';
 import ScholarTable from '../containers/ScholarTable';
-import { Scholar, IGroup, IManager } from '../models/index';
+import { Scholar, IGroup } from '../models/index';
 import ScholarInput from '../components/ScholarInput';
 import Account from '../components/Account';
 import WithModal from '../enhancers/withModal';
 import Dropdown from '../components/Dropdown';
 import Statistic from '../components/Statistic';
 import GroupDetail from '../components/GroupDetail';
-import { useStateWithPartialSetter } from '../hooks/utils';
+// import { useStateWithPartialSetter } from '../hooks/utils';
 
 const AccountWithModal = WithModal(Account);
 const GroupDetailWithModal = WithModal(GroupDetail);

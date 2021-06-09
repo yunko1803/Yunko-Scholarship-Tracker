@@ -4,7 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { IGroup } from '../models';
-import { db, firebase } from '../utils/db';
+import { db } from '../utils/db';
 
 type Props = {
   className?: string;
