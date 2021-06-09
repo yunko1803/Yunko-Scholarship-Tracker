@@ -60,11 +60,12 @@ function Home() {
       .then((querySnapShot) => {
         querySnapShot.forEach((doc) => {
           const manager = doc.data().name;
-          const ownerGroups = doc.data().groups;
+          const ownerGroups = !doc.data().groups ? [] : doc.data().groups;
+          console.log(ownerGroups);
           setManagerDbId(doc.id);
           setManager(manager);
           setGroups(ownerGroups);
-          setGroupId(ownerGroups[0].id);
+          setGroupId(!ownerGroups[0] ? '' : ownerGroups[0].id);
         });
       });
   }, [cookies])
