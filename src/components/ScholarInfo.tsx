@@ -25,6 +25,8 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
     );
   }
 
+  // if (data.days < 14) return <></>;
+
   return (
     <div
       className={classNames('ScholarInfo', className)}

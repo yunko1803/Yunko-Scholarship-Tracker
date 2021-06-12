@@ -38,6 +38,11 @@ function Home() {
   //   manager: '',
   // });
   const [managerDBId, setManagerDbId] = useState('');
+
+  // total
+  // const scholarsByGroup = Object.values(data).filter(data => true);
+
+  // scholarsByGroup
   const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
 
   useEffect(() => {
