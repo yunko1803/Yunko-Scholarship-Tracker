@@ -26,7 +26,7 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
       <div className="ScholarInput__first">
         <Dropdown
           className="ScholarInput__first__group"
-          items={lodash.isEmpty(groups) ? [] : groups.filter((group) => group.name !== 'total').map((group) => group.name)}
+          items={lodash.isEmpty(groups) ? [] : groups.filter((group) => group.name !== 'Total').map((group) => group.name)}
           onChange={setGroup}
           onClick={openModalClick}
         />
