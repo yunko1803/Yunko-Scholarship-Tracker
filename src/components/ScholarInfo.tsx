@@ -30,7 +30,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
   return (
     <div
       className={classNames('ScholarInfo', className)}
-      style={{order: -data.totalSLP}}
+      style={{order: -data.averageSLP}}
     >
       <div className="ScholarInfo__id">
         {index + 1}

@@ -31,7 +31,7 @@ const Statistic: React.FC<Props> = ({ className, scholars }) => {
         <span className="Statistic__info__title">Best Average SLP Collector</span>
         {!maxAverageSLPScholar ? <Loading /> : (
           <div>
-            {maxAverageSLPScholar.name}: {maxAverageSLPScholar.total}
+            {maxAverageSLPScholar.name}: {maxAverageSLPScholar.averageSLP}
           </div>
         )}
       </div>
