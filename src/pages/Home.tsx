@@ -40,13 +40,14 @@ function Home() {
   const [managerDBId, setManagerDbId] = useState('');
 
   // total
-  // const scholarsByGroup = Object.values(data).filter(data => true);
+  const scholarsByGroup = groupId !== '-1' ? Object.values(data).filter(data => data.groupId === groupId) : Object.values(data).filter(data => true);
 
   // scholarsByGroup
-  const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
+  // const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
 
   useEffect(() => {
-    db.collection('scholars').where('uid', '==', cookies.user ?? '').where('groupId', '==', groupId).get()
+    if (groupId === '-1') {
+      db.collection('scholars').where('uid', '==', cookies.user ?? '').get()
       .then((querySnapShot) => {
         let ary: Scholar[] = [];
         querySnapShot.forEach((doc) => {
@@ -57,6 +58,19 @@ function Home() {
         });
         setScholars(ary);
       });
+    } else {
+      db.collection('scholars').where('uid', '==', cookies.user ?? '').where('groupId', '==', groupId).get()
+      .then((querySnapShot) => {
+        let ary: Scholar[] = [];
+        querySnapShot.forEach((doc) => {
+          ary.push({
+            ...doc.data(),
+            scholarId: doc.id,
+          });
+        });
+        setScholars(ary);
+      });
+    }
   }, [groupId]);
 
   useEffect(() => {
@@ -66,7 +80,11 @@ function Home() {
         querySnapShot.forEach((doc) => {
           const manager = doc.data().name;
           const ownerGroups = !doc.data().groups ? [] : doc.data().groups;
-          console.log(ownerGroups);
+          const totalGroup = {
+            id: '-1',
+            name: 'Total',
+          }
+          ownerGroups.push(totalGroup);
           setManagerDbId(doc.id);
           setManager(manager);
           setGroups(ownerGroups);
@@ -107,7 +125,7 @@ function Home() {
           items={lodash.isEmpty(groups) ? [] : groups.map((group) => group.name)}
           onChange={handleGroup}
         />
-        <h1 className="Home__title__h1">group {findGroupName(groupId)}</h1>
+        <h1 className="Home__title__h1">{findGroupName(groupId)}</h1>
         {isLoggedIn && (
           <button
             onClick={() => setToggleGroupDetail(true)}
