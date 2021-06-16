@@ -1,21 +1,27 @@
 import './Home.scss';
 
 import React, { useState, useEffect } from 'react';
-import { useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { db, firebase } from '../utils/db';
 import lodash from 'lodash';
 import ScholarTable from '../containers/ScholarTable';
-import { Scholar, IGroup } from '../models/index';
+import { Scholar, IGroup, IScholarInfo } from '../models/index';
 import ScholarInput from '../components/ScholarInput';
 import Account from '../components/Account';
 import WithModal from '../enhancers/withModal';
 import Dropdown from '../components/Dropdown';
 import Statistic from '../components/Statistic';
 import GroupDetail from '../components/GroupDetail';
+import Header from '../components/Header';
+import EmptyScholars from '../containers/EmptyScholars';
+import Footer from '../components/Footer';
+import useSWR from 'swr';
+import { get } from '../apis/request';
 // import { useStateWithPartialSetter } from '../hooks/utils';
 
 const AccountWithModal = WithModal(Account);
 const GroupDetailWithModal = WithModal(GroupDetail);
+const ScholarInputWithModal = WithModal(ScholarInput);
 
 declare global {
   interface Window { propagateQueue: any; }
@@ -25,7 +31,7 @@ function Home() {
   const [cookies, setCookie] = useCookies(['user']);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [groupId, setGroupId] = useState('');
-  const [data, setData] = useState<Record<string, any>>({});
+  // const [data, setData] = useState<Record<string, any>>({});
   const [scholars, setScholars] = useState<Scholar[]>([]);
   const [toggleLogin, setToggleLogin] = useState(false);
   const [loginType, setLoginType] = useState('Login');
@@ -34,13 +40,14 @@ function Home() {
   const [manager, setManager] = useState('');
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [toggleGroupDetail, setToggleGroupDetail] = useState(false);
+  const [toggleScholarInput, setToggleScholarInput] = useState(false);
+  // total
+  // const scholarsByGroup = groupId !== '-1' ? Object.values(data).filter(data => data.groupId === groupId) : Object.values(data).filter(data => true);
+  const { data } = useSWR<IScholarInfo[]>(scholars.map(s => s.name).join(';'), loadData);
   // const [state, setSelected] = useStateWithPartialSetter<{}>({
   //   manager: '',
   // });
   const [managerDBId, setManagerDbId] = useState('');
-
-  // total
-  const scholarsByGroup = groupId !== '-1' ? Object.values(data).filter(data => data.groupId === groupId) : Object.values(data).filter(data => true);
 
   // scholarsByGroup
   // const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
@@ -94,93 +101,144 @@ function Home() {
   }, [cookies])
 
   return (
-    <div className="Home">
-      {
-        !manager ? null :
-        <div className="Home__account">
-          <span>Welcome {manager}!</span>
-          <div
-            className="Home__account__logout"
-            onClick={logOut}
-          >
-            Log Out
-          </div>
-        </div>
-      }
-      <ScholarInput
-        groups={groups}
-        addScholar={addScholar}
-        onClickLogin={onClickOpenModal}
+    <>
+      <Header
+        className="Header"
+        manager={manager}
+        onClickLogin={() => setToggleLogin(true)}
+        onClickLogout={logOut}
       />
 
-      {/* <Tabs
-        className="Home__Tabs"
-        contents={groups}
-        onSelect={setGroup}
-      /> */}
+      <div className="Home">
+        <div className="Home__title">
+          <div className="Home__title__group Gilroy">
+            <Dropdown
+              className="Home__title__dropdown"
+              items={lodash.isEmpty(groups) ? [] : groups.map((group) => group.name)}
+              onChange={handleGroup}
+              onClick={() => isLoggedIn ? {} : setToggleLogin(true)}
+            />
+            <button
+              onClick={() => isLoggedIn ? setToggleGroupDetail(true) : setToggleLogin(true)}
+              className="Home__title__group__button Gilroy"
+            >
+              +
+            </button>
+          </div>
 
-      <div className="Home__title">
-        <Dropdown
-          className="Home__title__dropdown"
-          items={lodash.isEmpty(groups) ? [] : groups.map((group) => group.name)}
-          onChange={handleGroup}
-        />
-        <h1 className="Home__title__h1">{findGroupName(groupId)}</h1>
-        {isLoggedIn && (
+
+          {!lodash.isEmpty(data) && <div className="Home__title__name Gilroy">{findGroupName(groupId)}</div>}
+
           <button
-            onClick={() => setToggleGroupDetail(true)}
-            className="Home__title__button"
+            onClick={() => isLoggedIn ? setToggleScholarInput(true) : setToggleLogin(true)}
+            className="Home__title__button Gilroy"
           >
-            Add Group
+            + Add Scholar
           </button>
+        </div>
+
+        {
+          !!isLoggedIn && (
+            <Statistic
+              className="Home__statistic"
+              scholars={scholars}
+              data={data}
+            />
+          )
+        }
+
+        {!isLoggedIn ? (
+          <EmptyScholars
+            manager={manager}
+          />
+        ) : (
+          <ScholarTable
+            groupId={groupId}
+            scholars={scholars}
+            manager={manager}
+            data={data}
+            className="Home__table"
+            onClickDeleteScholar={deleteScholar}
+            propagateData={() => {}}
+          />
+        )}
+
+        <div className="Home__spacer" />
+        {!isLoggedIn && (
+          <AccountWithModal
+            theme="dark"
+            isVisible={toggleLogin}
+            onClickClose={onClickCloseModal}
+            loginType={loginType}
+            onClickLoginType={setLoginType}
+            login={login}
+            register={register}
+            error={errorMessage}
+            onClickResetError={() => setErrorMessage('')}
+            isLoginLoading={isLoginLoading}
+            onClickLoginLoading={() => setIsLoginLoading(true)}
+          />
+        )}
+
+        {isLoggedIn && (
+          <GroupDetailWithModal
+            theme="dark"
+            isVisible={toggleGroupDetail}
+            onClickClose={onClickCloseModal}
+            groups={groups.filter(group => group.id !== '-1')}
+            manager={manager}
+            uid={cookies.user}
+            dbId={managerDBId}
+            onClickEditGroup={onClickEditGroup}
+          />
+        )}
+
+        {isLoggedIn && (
+          <ScholarInputWithModal
+            theme="dark"
+            isVisible={toggleScholarInput}
+            onClickClose={onClickCloseModal}
+            groups={groups}
+            addScholar={addScholar}
+            baseContentClassName="Home__ScholarInputModal__baseContent"
+            hideClose
+          />
         )}
       </div>
-
-      <Statistic
-        className="Home__statistic"
-        scholars={scholarsByGroup}
-      />
-
-      <ScholarTable
-        groupId={groupId}
-        scholars={scholars}
-        onClickDeleteScholar={deleteScholar}
-        propagateData={propagateData}
-      />
-
-      {!isLoggedIn && (
-        <AccountWithModal
-          theme="dark"
-          isVisible={toggleLogin}
-          onClickClose={onClickCloseModal}
-          loginType={loginType}
-          onClickLoginType={setLoginType}
-          login={login}
-          register={register}
-          error={errorMessage}
-          onClickResetError={() => setErrorMessage('')}
-          isLoginLoading={isLoginLoading}
-          onClickLoginLoading={() => setIsLoginLoading(true)}
-        />
-      )}
-
-      {isLoggedIn && (
-        <GroupDetailWithModal
-          theme="dark"
-          isVisible={toggleGroupDetail}
-          onClickClose={onClickCloseModal}
-          groups={groups}
-          manager={manager}
-          uid={cookies.user}
-          dbId={managerDBId}
-          onClickEditGroup={onClickEditGroup}
-        />
-      )}
-    </div>
+      <Footer />
+    </>
   );
 
   function onClickEditGroup(newGroups: IGroup[]) {
     setGroups(newGroups);
+  }
+
+  async function loadData(): Promise<IScholarInfo[]> {
+    let ary = await Promise.all(scholars.map(scholar => {
+      return (async (): Promise<IScholarInfo> => {
+        let address = scholar.walletAddress;
+        const response = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items?offset=0&limit=1`);
+        const items = response.items;
+        const scholarData = items[0];
+        const today = new Date();
+        const difference = Math.abs(today.getTime() - scholarData.last_claimed_item_at * 1000) / 86400000;
+        const differenceDays = Math.floor(difference) + 1;
+        const averageSLP = Math.floor((scholarData.total - scholarData.claimable_total) / differenceDays);
+
+        return {
+          name: scholar.name,
+          walletAddress: scholar.walletAddress,
+          totalSLP: items[0].total,
+          lastClaimed: items[0].last_claimed_item_at,
+          averageSLP: averageSLP,
+          days: differenceDays,
+          claimedSLP: scholarData.claimable_total,
+          unclaimedSLP: items[0].total - scholarData.claimable_total,
+        }
+      })();
+    }));
+
+    return ary;
   }
 
   function handleGroup(groupName: string) {
@@ -195,18 +253,15 @@ function Home() {
     return selectedGroup[0].name;
   }
 
-  function propagateData(scholarData: any) {
-    setData({ ...data, ...window.propagateQueue });
-    // window.propagateQueue = {};
-  }
+  // function propagateData(scholarData: any) {
+  //   setData({ ...data, ...window.propagateQueue });
+  //   // window.propagateQueue = {};
+  // }
 
   function onClickCloseModal() {
     setToggleLogin(false);
     setToggleGroupDetail(false);
-  }
-
-  function onClickOpenModal() {
-    setToggleLogin(true);
+    setToggleScholarInput(false);
   }
 
   function addScholar(scholar: Scholar) {
@@ -300,7 +355,7 @@ function Home() {
       setIsLoggedIn(false);
       handleCookie('');
       setGroups([]);
-      setData({});
+      // setData({});
       setScholars([]);
       setGroupId('');
     }, function(error) {

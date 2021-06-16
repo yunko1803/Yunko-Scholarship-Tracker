@@ -3,13 +3,19 @@
 
 .Account {
   color: $white;
-  width: rem(50);
+  width: rem(36);
 }
 
   .Account__title {
-    margin-top: rem(1.5);
-    font-size: rem(2.5);
+    margin-top: rem(6);
+    font-weight: 800;
+    font-size: rem(3.2);
   }
+
+    .Account__title__logo {
+      width: rem(2.4);
+      height: rem(2);
+    }
 
   .Account__tab {
     display: flex;
@@ -51,30 +57,62 @@
   .Account__inputs {
     display: flex;
     flex-direction: column;
-    margin-top: rem(2.5);
+    margin-top: rem(4);
     margin-left: rem(2.5);
     margin-right: rem(2.5);
   }
 
     .Account__inputs__email {
       height: rem(4);
-      margin-bottom: rem(2);
+      margin-bottom: rem(1);
       text-indent: rem(2);
+      border-radius: rem(.6);
+      border: rem(.1) solid #E0E0E0;
+
+      &:focus {
+        outline: none;
+        border: rem(.1) solid $light-gray;
+        border-radius: rem(.6);
+      }
+
+      &::placeholder {
+        color: $gray-500;
+      }
     }
 
     .Account__inputs__name {
       height: rem(4);
-      margin-bottom: rem(2);
+      margin-bottom: rem(1);
       text-indent: rem(2);
+      border: rem(.1) solid #E0E0E0;
+      border-radius: rem(.6);
+
+      &:focus {
+        outline: none;
+        border: rem(.1) solid $light-gray;
+        border-radius: rem(.6);
+      }
+
+      &::placeholder {
+        color: $gray-500;
+      }
     }
 
     .Account__inputs__password {
       height: rem(4);
       margin-bottom: rem(2);
       text-indent: rem(2);
+      border-radius: rem(.6);
+      border: rem(.1) solid #E0E0E0;
 
       &:focus {
-        border: none;
+        outline: none;
+        border: rem(.1) solid $light-gray;
+        border-radius: rem(.6);
+      }
+
+      &::placeholder {
+        color: $gray-500;
       }
     }
 
@@ -85,16 +123,41 @@
 
   .Account__button {
     width: 100%;
-    height: rem(4);
-    margin-bottom: rem(2);
+    height: rem(5);
+    margin-bottom: rem(3);
     cursor: pointer;
-    background-color: $blue;
+    background: linear-gradient(255.96deg, #7BD74F 0%, #5892E9 100%);
     border: none;
-    border-radius: rem(.2);
+    border-radius: rem(4);
     color: $black;
+    opacity: 1;
+    transition: opacity 150ms;
+
+    &:hover {
+      opacity: .7;
+    }
   }
 
   .Account__loading {
     align-self: center;
-    margin-bottom: rem(2);
+    margin-bottom: rem(3);
+  }
+
+  .Account__bottom {
+    margin-bottom: rem(4);
+    opacity: 1;
+    transition: opacity 150ms;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .6;
+    }
+  }
+
+  .Account__bottom__switch {
+    color: $white;
+  }
+
+  .Account__bottom__type {
+    color: $blue;
   }

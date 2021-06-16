@@ -15,6 +15,7 @@ export interface IScholarInfo {
   claimedSLP: number;
   lastClaimed: number;
   averageSLP: number;
+  unclaimedSLP: number;
   days: number;
 }
 
@@ -27,4 +28,9 @@ export interface IManager {
   groups: IGroup[],
   name: string,
   uid: string,
+}
+
+export interface IUser {
+  uid: string;
+  name: string;
 }

@@ -2,50 +2,63 @@ import './ScholarTable.scss';
 
 import React from 'react';
 import classNames from 'classnames';
+import { orderBy } from 'lodash';
 import ScholarTableHeader from './ScholarTableHeader';
-import { Scholar } from '../models/index';
+import { Scholar, IScholarInfo } from '../models/index';
 import ScholarList from './ScholarList';
+import { useStateWithPartialSetter } from '../hooks/utils';
 
 type Props = {
   className?: string;
   groupId: string;
   scholars: Scholar[];
+  data?: IScholarInfo[];
   onClickDeleteScholar: (scholar: Scholar) => void;
   propagateData: (data: any) => void;
+  manager: string;
 };
 
-const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, onClickDeleteScholar, propagateData }) => {
-  // const { data } = useSWR<Data[]>(scholars.map(s => s.name).join(';'), loadData)
+const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onClickDeleteScholar, propagateData, manager }) => {
+
+  const [sorter, setSorter] = useStateWithPartialSetter<{
+    iteratee: string;
+    order: 'desc' | 'asc';
+  }>({
+    iteratee: 'averageSLP',
+    order: 'desc',
+  });
+
+  const sorted = orderBy((data), sorter.iteratee, sorter.order);
 
   return (
     <div className={classNames('ScholarTable', className)}>
-      <ScholarTableHeader />
+      <ScholarTableHeader
+        onClickSortByFeature={handleSorterClick}
+        sorter={sorter}
+      />
       <ScholarList
         scholars={scholars}
+        data={sorted}
         onClickDeleteScholar={onClickDeleteScholar}
         propagateData={propagateData}
         groupId={groupId}
+        manager={manager}
       />
     </div>
   );
 
-  // async function loadData() {
-  //   let ary = await Promise.all(scholars.map(async scholar => {
-  //     return await (async () => {
-  //       let address = scholar.walletAddress;
-  //       const response = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items?offset=0&limit=1`);
-  //       const items = response.items;
-  //       return {
-  //         name: scholar.name,
-  //         walletAddress: scholar.walletAddress,
-  //         totalSLP: items[0].total,
-  //         lastClaimed: items[0].last_claimed_item_at
-  //       }
-  //     })();
-  //   }));
+  function handleSorterClick(iteratee: string) {
+    if (sorter.iteratee === iteratee) {
+      setSorter({
+        order: sorter.order === 'desc' ? 'asc' : 'desc',
+      });
+      return;
+    }
 
-  //   return ary;
-  // }
+    setSorter({
+      iteratee
+    });
+  }
 };
 
 export default ScholarTable;

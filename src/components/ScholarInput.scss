@@ -6,13 +6,18 @@
   flex-direction: column;
   margin-left: rem(4);
   width: rem(73);
+  background-color: transparent;
 }
 
   .ScholarInput__first {
     display: flex;
     margin-bottom: rem(1);
     justify-content: flex-end;
+    align-items: center;
     position: relative;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
+    background-color: #FFFFFF;
+    border-radius: rem(.6);
   }
 
     .ScholarInput__first__group {
@@ -21,29 +26,64 @@
       left: 0;
     }
 
+    .ScholarInput__first__border {
+      height: rem(3);
+      border: .1px solid #C4C4C4;
+    }
+
+      .ScholarInput__first__group__button {
+        border: none !important;
+        height: rem(6) !important;
+        border-radius: rem(.6) !important;
+      }
+
     .ScholarInput__first__name {
       width: 75%;
-      height: rem(4);
-      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-      border: 1px solid $gray-400;
-      border-radius: rem(.4);
+      height: rem(6);
+      border: none;
+      border-radius: rem(.6);
       text-indent: rem(2);
+
+      &::placeholder {
+        color: #BDBDBD;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
 
   .ScholarInput__second {
-    height: rem(4);
+    height: rem(6);
     margin-bottom: rem(1);
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-    border: 1px solid $gray-400;
-    border-radius: rem(.4);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    border-radius: rem(.6);
     text-indent: rem(2);
+
+    &::placeholder {
+      color: #BDBDBD;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .ScholarInput__button {
-    background-color: $kakao;
+    background-color: #5892E9;
     border: none;
     border-radius: rem(.25);
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-    height: rem(4);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    height: rem(5);
+    width: rem(12);
     cursor: pointer;
+    align-self: center;
+    color: #FFFFFF;
+    transition: opacity 150ms;
+    opacity: 1;
+
+    &:hover {
+      opacity: .8;
+    }
   }

@@ -1,0 +1,63 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: rem(14);
+  background: #FAFAFA;
+  display: flex;
+  padding-top: rem(4);
+  transition: height 150ms;
+
+  &--close {
+    height: rem(0);
+  }
+}
+
+  .Footer__first {
+    margin-left: rem(18);
+    display: flex;
+  }
+
+    .Footer__first__image {
+      margin-right: rem(1);
+      width: rem(3.3);
+      height: rem(2);
+    }
+
+  .Footer__second {
+    margin-left: rem(10);
+    width: rem(20);
+  }
+
+    .Footer__second__description {
+      text-align: left;
+      margin-bottom: rem(3);
+    }
+
+    .Footer__second__copyright {
+      display: flex;
+      align-items: center;
+      margin-top: rem(3);
+    }
+
+    .Footer__second__logo {
+      width: rem(1);
+      height: rem(1);
+      margin-right: rem(.5);
+    }
+
+  .Footer__third {
+    margin-left: rem(10);
+  }
+
+  .Footer__icon {
+    position: absolute;
+    right: rem(5);
+    top: rem(-1);
+    width: rem(5);
+    height: rem(5);
+    cursor: pointer;
+  }

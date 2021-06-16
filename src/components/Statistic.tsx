@@ -4,45 +4,85 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import Loading from './Loading';
+import { IScholarInfo, Scholar } from '../models/index';
 
 type Props = {
   className?: string;
-  scholars: any[];
+  data?: IScholarInfo[];
+  scholars?: Scholar[];
 };
 
-const Statistic: React.FC<Props> = ({ className, scholars }) => {
-  const maxSLPScholar = lodash.maxBy(scholars, (scholar) => scholar.total);
-  const maxAverageSLPScholar = lodash.maxBy(scholars, (scholar) => scholar.averageSLP);
-  const totalSLP = lodash.sumBy(scholars, scholar => scholar.total);
+const Statistic: React.FC<Props> = ({ className, scholars, data }) => {
+  const maxSLPScholar = lodash.maxBy(data, (scholar) => scholar.totalSLP);
+  const maxAverageSLPScholar = lodash.maxBy(data, (scholar) => scholar.averageSLP);
+  const totalSLP = lodash.sumBy(data, scholar => scholar.totalSLP);
 
   if (lodash.isEmpty(scholars)) return <div></div>;
 
   return (
     <div className={classNames('Statistic', className)}>
+
       <div className="Statistic__info maxSLP">
-        <span className="Statistic__info__title">Best SLP Collector</span>
+        <div className="Statistic__info__title Gilroy">
+          <img
+            className="Statistic__info__title__icon"
+            src={process.env.PUBLIC_URL + '/images/best.png'}
+          />
+          Best SLP Collector
+        </div>
         {!maxSLPScholar ? <Loading /> : (
-          <div>
-            {maxSLPScholar.name}: {maxSLPScholar.total}
+          <div className="Statistic__info__title__detail">
+            <div
+              className="Statistic__info__title__detail__scholar Gilroy"
+              style={{ backgroundColor: '#5892E9' }}
+            >
+              {maxSLPScholar.name}
+            </div>
+            <div className="Statistic__info__title__detail__number Gilroy">
+              {maxSLPScholar.totalSLP}
+            </div>
           </div>
         )}
       </div>
+
       <div className="Statistic__info maxAverage">
-        <span className="Statistic__info__title">Best Average SLP Collector</span>
+        <div className="Statistic__info__title Gilroy">
+          <img
+            className="Statistic__info__title__icon"
+            src={process.env.PUBLIC_URL + '/images/crown.png'}
+          />
+          Best Average SLP Collector
+        </div>
         {!maxAverageSLPScholar ? <Loading /> : (
-          <div>
-            {maxAverageSLPScholar.name}: {maxAverageSLPScholar.averageSLP}
+          <div className="Statistic__info__title__detail">
+            <div
+              className="Statistic__info__title__detail__scholar Gilroy"
+              style={{ backgroundColor: '#7BD74F' }}
+            >
+              {maxAverageSLPScholar.name}
+            </div>
+            <div className="Statistic__info__title__detail__number Gilroy">
+              {maxAverageSLPScholar.averageSLP}
+            </div>
           </div>
         )}
       </div>
+
       <div className="Statistic__info total">
-        <span className="Statistic__info__title">Total SLP</span>
+        <div className="Statistic__info__title Gilroy">
+          <img
+            className="Statistic__info__title__icon"
+            src={process.env.PUBLIC_URL + '/images/SLP.png'}
+          />
+          Total SLP
+        </div>
         {!totalSLP ? <Loading /> : (
-          <div>
+          <div className="Statistic__info__title__detail__number Gilroy">
             {totalSLP}
           </div>
         )}
       </div>
+
     </div>
   );
 };

@@ -3,20 +3,17 @@
 
 .GroupInfo {
   display: flex;
-  height: rem(5);
-  border-bottom: rem(.1) solid $white;
-  border-top: rem(.1) solid $white;
-  margin-top: rem(-.1);
+  height: rem(4);
+  border-radius: rem(1);
 
-  &:last-child {
-    border-bottom: none;
+  &--even {
+    background-color: #f2f2f2;
   }
 }
 
   .GroupInfo__id {
     flex: .5;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +22,6 @@
   .GroupInfo__name {
     flex: 1;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,13 +30,12 @@
   .GroupInfo__total {
     flex: 1;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .GroupInfo__delete {
+  .GroupInfo__action {
     flex: 1;
     height: 100%;
     display: flex;
@@ -49,3 +44,25 @@
     cursor: pointer;
     color: $blue;
   }
+
+  .GroupInfo__action__icon {
+    width: rem(2.8);
+    height: rem(2.8);
+    background-color: #E0E0E0;
+    border-radius: rem(.8);
+    transition: background-color 150ms;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: #F33D48;
+    }
+  }
+
+    .GroupInfo__action__icon__x {
+      width: rem(1.2);
+      height: rem(1.2);
+    }
+

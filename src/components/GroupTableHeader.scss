@@ -3,15 +3,14 @@
 
 .GroupTableHeader {
   display: flex;
-  height: rem(5);
-  background-color: $blue;
+  height: rem(4);
   font-weight: bold;
+  border-bottom: rem(.1) solid #828282;
 }
 
   .GroupTableHeader__id {
     flex: .5;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +19,6 @@
   .GroupTableHeader__name {
     flex: 1;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +27,6 @@
   .GroupTableHeader__totalScholars {
     flex: 1;
     height: 100%;
-    border-right: rem(.1) solid $white;
     display: flex;
     justify-content: center;
     align-items: center;

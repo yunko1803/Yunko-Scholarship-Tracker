@@ -11,9 +11,11 @@ import Close from '../components/Close';
 type Props ={
   isVisible: boolean;
   contentClassName?: string;
+  baseContentClassName?: string;
   theme?: 'dark';
   onClickClose: () => void;
-  disableClose?: boolean
+  disableClose?: boolean;
+  hideClose?: boolean;
 }
 
 const withModal = <P extends object>(Element: React.ComponentType<P>) =>
@@ -32,7 +34,7 @@ const withModal = <P extends object>(Element: React.ComponentType<P>) =>
     }
 
     render() {
-      const { isVisible, theme, onClickClose } = this.props;
+      const { isVisible, theme, onClickClose, hideClose } = this.props;
 
       return isVisible && (
         <ModalPortal>
@@ -44,10 +46,11 @@ const withModal = <P extends object>(Element: React.ComponentType<P>) =>
               onClick={onClickClose}
             />
             <div className={classNames('Modal__content', this.props.contentClassName)}>
-              <div className="Modal__baseContent">
+              <div className={classNames('Modal__baseContent', this.props.baseContentClassName)}>
                 <div
                   className={classNames('Modal__closeButton', {
                     'Modal__closeButton--disabled': this.props.disableClose,
+                    'Modal__closeButton--hide': hideClose,
                   })}
                   onClick={onClickClose}
                 >

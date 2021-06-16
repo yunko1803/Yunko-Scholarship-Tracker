@@ -1,0 +1,12 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Logo {
+  font-size: rem(2);
+  line-height: rem(2.5);
+  font-weight: 800;
+}
+
+  .Logo__tracker {
+    color: #7BD74F;
+  }

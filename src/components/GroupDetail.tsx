@@ -18,7 +18,6 @@ type Props = {
 const GroupDetail: React.FC<Props> = ({ className, groups, manager, uid, dbId, onClickEditGroup }) => {
   return (
     <div className={classNames('GroupDetail', className)}>
-      <div className="GroupDetail__title">Group Detail</div>
       <GroupInput
         groups={groups}
         manager={manager}
@@ -26,6 +25,10 @@ const GroupDetail: React.FC<Props> = ({ className, groups, manager, uid, dbId, o
         dbId={dbId}
         onClickEditGroup={onClickEditGroup}
       />
+
+      <div className="GroupDetail__title Gilroy">
+        Groups
+      </div>
       <GroupTable
         groups={groups}
         manager={manager}

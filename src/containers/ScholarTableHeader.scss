@@ -2,75 +2,121 @@
 @import "../styles/colors";
 
 .ScholarTableHeader {
-  background-color: $blue;
-  height: rem(8);
   display: flex;
-  font-weight: bold;
+  flex-direction: column;
 }
 
-  .ScholarTableHeader__id {
-    flex: 6;
-    height: 100%;
-    border-right: rem(.1) solid $white;
+  .ScholarTableHeader__upper {
+    width: rem(55.8);
+    border-bottom: rem(.1) solid #E0E0E0;
+    padding-bottom: rem(1);
+    align-self: center;
+  }
+
+  .ScholarTableHeader__downer {
+    height: rem(4);
+    border-bottom: rem(.1) solid #828282;
     display: flex;
-    justify-content: center;
+    text-align: left;
     align-items: center;
-  }
 
-  .ScholarTableHeader__name {
-    flex: 10;
-    height: 100%;
-    border-right: rem(.1) solid $white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .ScholarTableHeader__SLP {
-    flex: 53;
-    height: 100%;
-    border-right: rem(.1) solid $white;
-    display: flex;
-    flex-direction: column;
-  }
-
-    .ScholarTableHeader__title {
+    &--id {
+      margin-left: rem(2);
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-bottom: rem(.1) solid $white;
     }
 
-    .ScholarTableHeader__SLP__detail {
+    &--name {
+      margin-left: rem(5);
       flex: 1;
+    }
+
+    &--average {
+      margin-left: rem(6);
+      flex: 1.3;
+      cursor: pointer;
       display: flex;
+      align-items: center;
 
-      div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-right: rem(.1) solid $white;
+      .ScholarTableHeader__downer--average__icon {
+        color: $green;
 
-        &:last-child {
-          border-right: none;
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
         }
       }
     }
 
-  .ScholarTableHeader__claimed {
-    flex: 16;
-    height: 100%;
-    border-right: rem(.1) solid $white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    &--unclaimed {
+      margin-left: rem(3);
+      flex: 1.3;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
 
-  .ScholarTableHeader__action {
-    flex: 13;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+      .ScholarTableHeader__downer--unclaimed__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &--claimed {
+      margin-left: rem(5);
+      flex: 1.3;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .ScholarTableHeader__downer--claimed__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &--total {
+      margin-left: rem(3);
+      flex: 1.3;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .ScholarTableHeader__downer--total__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &--days {
+      margin-left: rem(2);
+      flex: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .ScholarTableHeader__downer--days__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    &--action {
+      margin-left: rem(2);
+      flex: 1;
+    }
   }

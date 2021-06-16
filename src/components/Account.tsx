@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import './Account.scss';
 import Loading from './Loading';
+import Logo from './Logo';
 
 type Props = {
   className?: string;
@@ -23,26 +24,15 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
 
   return (
     <div className={classNames('Account', className)}>
-      <div className="Account__tab">
-        <div
-          className={classNames('Account__tab__login', {
-            'Account__tab__login--selected': loginType === 'Login'
-          })}
-          onClick={() => onClickSwitchTab('Login')}
-        >
-          Login
-        </div>
-        <div
-          className={classNames('Account__tab__register', {
-            'Account__tab__register--selected': loginType === 'Register',
-          })}
-          onClick={() => onClickSwitchTab('Register')}
-        >
-          Register
+      <div className="Account__title Gilroy">
+        <img
+          className="Account__title__logo"
+          src={process.env.PUBLIC_URL + '/images/logo3.png'}
+        />
+        <div>
+          {loginType === 'Login' ? 'Welcome!' : 'Register :)'}
         </div>
       </div>
-
-      <div className="Account__title">{loginType}</div>
 
       <form
         className="Account__inputs"
@@ -73,7 +63,7 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
 
         {!isLoginLoading ? (
           <input
-            className="Account__button"
+            className="Account__button Gilroy"
             type="submit"
             value={loginType}
           />
@@ -81,6 +71,18 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
           <Loading className="Account__loading" />
         )}
 
+        <div
+          className="Account__bottom Gilroy"
+          onClick={() => onClickSwitchTab(loginType === 'Login' ? 'Register' : 'Login')}
+        >
+          <span className="Account__bottom__switch">
+            Switch to
+          </span>
+          {' '}
+          <span className="Account__bottom__type">
+            {loginType === 'Login' ? 'Register' : 'Login'}
+          </span>
+        </div>
       </form>
     </div>
   );
@@ -110,7 +112,7 @@ const Account: React.FC<Props> = ({ className, loginType, onClickLoginType, logi
       return (
         <input
           className="Account__inputs__name"
-          placeholder="Name"
+          placeholder="Your Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

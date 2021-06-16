@@ -1,8 +1,14 @@
 @import "../styles/mixins";
 @import "../styles/colors";
 
+.Header {
+  margin-bottom: rem(5);
+}
+
 .Home {
+  @include padding-horizontal(rem(17));
   margin-top: rem(2);
+  height: 65vh;
 }
 
 .Home__account {
@@ -22,28 +28,75 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
+  margin-bottom: rem(3.6)
 }
 
-  .Home__title__dropdown {
-    margin-right: rem(3);
-    position: absolute;
+  .Home__title__group {
+    display: flex;
   }
 
-  .Home__title__h1 {
-    flex: 1;
-    align-self: center;
+  .Home__title__group__button {
+    background-color: #7BD74F;
+    border: none;
+    height: rem(5);
+    width: rem(5);
+    margin-left: rem(1);
+    font-size: rem(1.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: rem(1);
+    color: #FFFFFF;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 150ms;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  .Home__title__dropdown {
+    // margin-right: rem(3);
+    position: relative;
+  }
+
+  .Home__title__name {
+    position: absolute;
+    font-size: rem(2.3);
+    left: 50%;
   }
 
   .Home__title__button {
-    position: absolute;
-    right: 0;
-    background-color: #86FBDF;
+    background: linear-gradient(0deg, #5892E9, #5892E9);
     border: none;
-    height: rem(4);
-    border-radius: rem(.2);
+    height: rem(5);
+    border-radius: rem(1);
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
     cursor: pointer;
-    width: rem(10);
+    width: rem(12);
+    color: #FFFFFF;
+    opacity: 1;
+    transition: opacity 150ms;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  .Home__statistic {
+    margin-bottom: rem(4);
+  }
+
+  .Home__spacer {
+    padding: rem(4);
+  }
+
+  .Home__ScholarInputModal__baseContent {
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+    overflow: visible !important;
   }

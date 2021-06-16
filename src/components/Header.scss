@@ -1,0 +1,63 @@
+@import "../styles/mixins";
+@import "../styles/colors";
+
+.Header {
+  margin-top: rem(1);
+  width: 100%;
+  height: rem(4);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+  .Header__logo {
+    margin-left: rem(4);
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+    .Header__logo__img {
+      margin-right: rem(1);
+      width: rem(3.3);
+      height: rem(2);
+    }
+
+  .Header__user {
+    position: absolute;
+    left: 46%;
+    top: 20%;
+  }
+
+    .Header__user__greeting {
+      color: $gray-400;
+    }
+
+  .Header__authentication {
+    width: rem(10);
+    height: rem(3.5);
+    border-radius: rem(2);
+    margin-right: rem(4);
+    align-self: center;
+    border: none;
+    background: linear-gradient(255.96deg, #7BD74F 0%, #5892E9 100%);
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 150ms;
+    color: $black;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &--logout {
+      background: #F2F2F2;
+      color: #BDBDBD;
+      transition: background 150ms;
+
+      &:hover {
+        background: $gray-400;
+        // color: $white;
+      }
+    }
+  }

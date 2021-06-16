@@ -19,7 +19,9 @@ type Props = {
 const GroupInfo: React.FC<Props> = ({ className, groups, group, index, manager, uid, dbId, onClickEditGroup }) => {
 
   return (
-    <div className={classNames('GroupInfo', className)}>
+    <div className={classNames('GroupInfo', className, {
+      'GroupInfo--even': index % 2 == 0,
+    })}>
       <div className="GroupInfo__id">
         {index}
       </div>
@@ -34,10 +36,17 @@ const GroupInfo: React.FC<Props> = ({ className, groups, group, index, manager, 
       </div>
 
       <div
-        className="GroupInfo__delete"
+        className="GroupInfo__action"
         onClick={onClickDeleteGroup}
       >
-        delete
+        <div
+          className="GroupInfo__action__icon"
+        >
+          <img
+            className="GroupInfo__action__icon__x"
+            src={process.env.PUBLIC_URL + '/images/x.png'}
+          />
+        </div>
       </div>
     </div>
   );

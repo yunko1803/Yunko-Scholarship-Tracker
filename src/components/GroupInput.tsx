@@ -27,15 +27,18 @@ const GroupInput: React.FC<Props> = ({ className, groups, manager, uid, dbId, on
         placeholder="Group Name"
       />
       <button
-        className="GroupInput__button"
+        className="GroupInput__button Gilroy"
         onClick={addGroup}
       >
-        add
+        + Add
       </button>
     </div>
   );
 
   function addGroup() {
+    if (name == '') return;
+    // eslint-disable-next-line
+    if (!confirm(`Would you like to add ${name} to the groups?`)) return;
     setName('');
 
     if (isEmpty(groups)) {

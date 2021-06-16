@@ -11,15 +11,29 @@
 
   .GroupInput__input {
     width: 60%;
-    height: rem(3);
+    height: rem(4);
     text-indent: rem(1.5);
     margin-bottom: rem(1);
+    border: rem(.1) solid $gray-600;
+
+    &:focus {
+      outline: none;
+      border: rem(.1) solid $red;
+    }
   }
 
   .GroupInput__button {
-    height: rem(3);
-    width: rem(8);
+    width: rem(10);
+    height: rem(4);
     border: none;
-    background-color: $kakao;
+    background-color: #5892E9;
     border-radius: rem(.2);
+    opacity: 1;
+    transition: opacity 150ms;
+    cursor: pointer;
+    color: #FFFFFF;
+
+    &:hover {
+      opacity: .8;
+    }
   }

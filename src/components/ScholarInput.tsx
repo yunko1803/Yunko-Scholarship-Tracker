@@ -12,10 +12,9 @@ type Props = {
   className?: string;
   groups: IGroup[];
   addScholar: (scholar: Scholar) => void;
-  onClickLogin: () => void;
 };
 
-const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickLogin }) => {
+const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
   const [name, setName] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [group, setGroup] = React.useState(lodash.isEmpty(groups) ? '' : groups[0].name);
@@ -26,16 +25,18 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
       <div className="ScholarInput__first">
         <Dropdown
           className="ScholarInput__first__group"
+          buttonClassName="ScholarInput__first__group__button"
           items={lodash.isEmpty(groups) ? [] : groups.filter((group) => group.name !== 'Total').map((group) => group.name)}
           onChange={setGroup}
-          onClick={openModalClick}
+        />
+        <div
+          className="ScholarInput__first__border"
         />
         <input
           className="ScholarInput__first__name"
           placeholder="Name of Scholar"
           value={name}
           onChange={handleChangeName}
-          onClick={openModalClick}
         />
       </div>
 
@@ -44,23 +45,16 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar, onClickL
         placeholder="ETH address"
         value={address}
         onChange={handleChangeAddress}
-        onClick={openModalClick}
       />
       <button
-        className="ScholarInput__button"
+        className="ScholarInput__button Gilroy"
         onClick={onClickAddScholar}
         disabled={!cookies.user}
       >
-        add
+        + Add
       </button>
     </div>
   );
-
-  function openModalClick() {
-    if (!!cookies.user) return;
-
-    onClickLogin();
-  }
 
   function handleChangeName(e: React.ChangeEvent<HTMLInputElement>) {
     if (!cookies.user) return;

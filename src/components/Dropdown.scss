@@ -8,14 +8,15 @@
 .Dropdown__button {
   @include transition(background-color, .25s);
   border: 1px solid $dark-gray;
-  background-color: $black;
-  border-radius: rem(0.2);
+  background-color: #FFFFFF;
   overflow: hidden;
-  width: rem(12);
-  height: rem(4);
-  padding-left: rem(1.5);
+  width: rem(15);
+  height: rem(5);
+  padding-left: rem(2);
   display: flex;
   align-items: center;
+  border-radius: rem(1);
+  color: #828282;
 
   &:hover {
     background-color: rgba($gray-600-rgb, 0.75);
@@ -68,8 +69,8 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  right: rem(.5);
+  right: rem(2);
   margin: auto 0;
   pointer-events: none;
-  color: $text-color;
+  color: #828282;
 }
