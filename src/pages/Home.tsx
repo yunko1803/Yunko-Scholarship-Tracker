@@ -234,6 +234,7 @@ function Home() {
           days: differenceDays,
           claimedSLP: scholarData.claimable_total,
           unclaimedSLP: items[0].total - scholarData.claimable_total,
+          scholarId: scholar.scholarId,
         }
       })();
     }));
@@ -296,6 +297,7 @@ function Home() {
   function deleteScholar(deletedScholar: Scholar) {
     const deletedScholars = scholars.filter((scholar) => scholar.scholarId !== deletedScholar.scholarId);
     setScholars(deletedScholars);
+    console.log(deletedScholar);
     db.collection('scholars').doc(deletedScholar.scholarId).delete().then(() => {
       console.log("Document successfully deleted!");
     }).catch((error) => {

@@ -17,6 +17,7 @@ export interface IScholarInfo {
   averageSLP: number;
   unclaimedSLP: number;
   days: number;
+  scholarId?: string;
 }
 
 export interface IGroup {
