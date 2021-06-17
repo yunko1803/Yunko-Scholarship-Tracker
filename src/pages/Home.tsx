@@ -297,7 +297,7 @@ function Home() {
   function deleteScholar(deletedScholar: Scholar) {
     const deletedScholars = scholars.filter((scholar) => scholar.scholarId !== deletedScholar.scholarId);
     setScholars(deletedScholars);
-    console.log(deletedScholar);
+
     db.collection('scholars').doc(deletedScholar.scholarId).delete().then(() => {
       console.log("Document successfully deleted!");
     }).catch((error) => {
