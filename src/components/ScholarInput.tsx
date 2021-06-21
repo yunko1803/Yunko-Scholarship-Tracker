@@ -82,6 +82,7 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
       name,
       groupId: selectedGroup[0].id,
       walletAddress: address,
+      scholarId: '',
     });
     setName('');
     setAddress('');

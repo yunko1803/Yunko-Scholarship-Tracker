@@ -11,7 +11,7 @@ import EmptyScholars from './EmptyScholars';
 type Props = {
   className?: string;
   scholars: Scholar[];
-  onClickDeleteScholar: (scholar: Scholar) => void;
+  onClickDeleteScholar: (scholar: IScholarInfo) => void;
   propagateData: (data: any) => void;
   groupId: string;
   data?: IScholarInfo[];

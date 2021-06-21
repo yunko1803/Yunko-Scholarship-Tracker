@@ -11,7 +11,7 @@ type Props = {
   className?: string;
   scholar: IScholarInfo;
   index: number;
-  onClickDeleteScholar: (scholar: Scholar) => void;
+  onClickDeleteScholar: (scholar: IScholarInfo) => void;
   propagateData: (data: any) => void;
   groupId: string;
 };

@@ -5,7 +5,7 @@ export interface Scholar {
   name?: string;
   walletAddress?: string;
   groupId?: string;
-  scholarId?: string;
+  scholarId: string;
 }
 
 export interface IScholarInfo {
@@ -17,7 +17,7 @@ export interface IScholarInfo {
   averageSLP: number;
   unclaimedSLP: number;
   days: number;
-  scholarId?: string;
+  scholarId: string;
 }
 
 export interface IGroup {

@@ -33,7 +33,7 @@ declare global {
 async function loadData(
   hashId: number,
   scholars: Scholar[],
-  setScholarInfo: (a: IScholarInfo[], hash: number) => void,
+  setScholarInfo: (a: IScholarInfo[]) => void,
 ): Promise<void> {
   let promiseAry = scholars.map(scholar => {
     return async () => {
@@ -59,9 +59,9 @@ async function loadData(
   });
   let a: IScholarInfo[] = [];
   for (const promise of promiseAry) {
-    a = [...a, await promise()]
-    if (window.taskId == hashId) setScholarInfo(a, hashId)
-    else break
+    a = [...a, await promise()];
+    if (window.taskId == hashId) setScholarInfo(a);
+    else break;
   }
 }
 
@@ -70,7 +70,6 @@ function Home() {
   const [cookies, setCookie] = useCookies(['user']);
   const [groups, setGroups] = useState<IGroup[]>([]);
   const [groupId, setGroupId] = useState('');
-  // const [data, setData] = useState<Record<string, any>>({});
   const [scholars, setScholars] = useState<Scholar[]>([]);
   const [toggleLogin, setToggleLogin] = useState(false);
   const [loginType, setLoginType] = useState('Login');
@@ -81,22 +80,14 @@ function Home() {
   const [toggleGroupDetail, setToggleGroupDetail] = useState(false);
   const [toggleScholarInput, setToggleScholarInput] = useState(false);
   const [data, setData] = useState<IScholarInfo[]>([])
-  // total
-  // const scholarsByGroup = groupId !== '-1' ? Object.values(data).filter(data => data.groupId === groupId) : Object.values(data).filter(data => true);
-  // const { data } = useSWR<IScholarInfo[]>(scholars.map(s => s.name).join(';'), loadData);
 
   const handleChangeScholars = (scholars: Scholar[]) => {
-    window.taskId = Math.random()
-    setScholars(scholars)
+    window.taskId = Math.random();
+    setScholars(scholars);
     loadData(window.taskId, scholars, setData);
   }
-  // const [state, setSelected] = useStateWithPartialSetter<{}>({
-  //   manager: '',
-  // });
-  const [managerDBId, setManagerDbId] = useState('');
 
-  // scholarsByGroup
-  // const scholarsByGroup = Object.values(data).filter(data => data.groupId === groupId);
+  const [managerDBId, setManagerDbId] = useState('');
 
   useEffect(() => {
     if (groupId === '-1') {
@@ -144,7 +135,7 @@ function Home() {
           setGroupId(!ownerGroups[0] ? '' : ownerGroups[0].id);
         });
       });
-  }, [cookies])
+  }, [cookies]);
 
   return (
     <>
@@ -255,6 +246,38 @@ function Home() {
     </>
   );
 
+  async function addLocalScholar(scholar: Scholar, scholarId: string) {
+    const newScholars = [...scholars, {
+      groupId: scholar.groupId,
+      name: scholar.name,
+      uid: cookies.user,
+      walletAddress: scholar.walletAddress,
+      scholarId: scholarId,
+    }];
+    setScholars(newScholars);
+
+    let address = scholar.walletAddress;
+    const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
+    const today = new Date();
+    const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
+    const differenceDays = Math.floor(difference) + 1;
+    const averageSLP = Math.floor((total - claimable_total) / differenceDays);
+
+    const newData =  {
+      name: scholar.name,
+      walletAddress: scholar.walletAddress,
+      totalSLP: total,
+      lastClaimed: last_claimed_item_at,
+      averageSLP: averageSLP,
+      days: differenceDays,
+      claimedSLP: claimable_total,
+      unclaimedSLP: total - claimable_total,
+      scholarId,
+    };
+
+    setData([...data, newData]);
+  }
+
   function onClickEditGroup(newGroups: IGroup[]) {
     setGroups(newGroups);
   }
@@ -272,11 +295,6 @@ function Home() {
     return selectedGroup[0].name;
   }
 
-  // function propagateData(scholarData: any) {
-  //   setData({ ...data, ...window.propagateQueue });
-  //   // window.propagateQueue = {};
-  // }
-
   function onClickCloseModal() {
     setToggleLogin(false);
     setToggleGroupDetail(false);
@@ -292,14 +310,7 @@ function Home() {
     })
     .then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
-      const newScholars = [...scholars, {
-        groupId: scholar.groupId,
-        name: scholar.name,
-        uid: cookies.user,
-        walletAddress: scholar.walletAddress,
-        scholarId: docRef.id,
-      }];
-      setScholars(newScholars);
+      addLocalScholar(scholar, docRef.id);
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -312,15 +323,21 @@ function Home() {
     });
   }
 
-  function deleteScholar(deletedScholar: Scholar) {
-    const deletedScholars = scholars.filter((scholar) => scholar.scholarId !== deletedScholar.scholarId);
-    setScholars(deletedScholars);
+  function deleteScholar(deletedScholar: IScholarInfo) {
+    deleteLocalScholar(deletedScholar.scholarId);
 
     db.collection('scholars').doc(deletedScholar.scholarId).delete().then(() => {
       console.log("Document successfully deleted!");
     }).catch((error) => {
       console.error("Error removing document: ", error);
     });
+  }
+
+  function deleteLocalScholar(scholarId: string) {
+    const deletedScholars = scholars.filter((scholar) => scholar.scholarId !== scholarId);
+    setScholars(deletedScholars);
+    const newData = data.filter((scholar) => scholar.scholarId !== scholarId);
+    setData(newData);
   }
 
   function login(email: string, password: string) {
@@ -375,7 +392,6 @@ function Home() {
       setIsLoggedIn(false);
       handleCookie('');
       setGroups([]);
-      // setData({});
       setScholars([]);
       setGroupId('');
     }, function(error) {

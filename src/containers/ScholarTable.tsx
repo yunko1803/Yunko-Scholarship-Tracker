@@ -13,7 +13,7 @@ type Props = {
   groupId: string;
   scholars: Scholar[];
   data?: IScholarInfo[];
-  onClickDeleteScholar: (scholar: Scholar) => void;
+  onClickDeleteScholar: (scholar: IScholarInfo) => void;
   propagateData: (data: any) => void;
   manager: string;
 };
