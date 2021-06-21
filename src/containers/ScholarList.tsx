@@ -40,6 +40,19 @@ const ScholarList: React.FC<Props> = ({ className, scholars, data, onClickDelete
           groupId={groupId}
         />
       ))} */}
+
+      {/* scholars more than 14 days */}
+      {/* {data!.filter(scholar => scholar.days >= 13).map((scholar, index) => (
+        <ScholarInfo
+          key={scholar.walletAddress}
+          index={index}
+          scholar={scholar}
+          onClickDeleteScholar={onClickDeleteScholar}
+          propagateData={propagateData}
+          groupId={groupId}
+        />
+      ))} */}
+
       {data!.map((scholar, index) => (
         <ScholarInfo
           key={scholar.walletAddress}

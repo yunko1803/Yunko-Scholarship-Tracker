@@ -25,7 +25,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
   //   );
   // }
 
-  // if (data.days < 14) return <></>;
+  // if (scholar.days < 14) return <></>;
 
   return (
     <div

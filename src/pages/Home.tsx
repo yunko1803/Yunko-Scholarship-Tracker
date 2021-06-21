@@ -24,8 +24,47 @@ const GroupDetailWithModal = WithModal(GroupDetail);
 const ScholarInputWithModal = WithModal(ScholarInput);
 
 declare global {
-  interface Window { propagateQueue: any; }
+  interface Window {
+    propagateQueue: any;
+    taskId: number;
+  }
 }
+
+async function loadData(
+  hashId: number,
+  scholars: Scholar[],
+  setScholarInfo: (a: IScholarInfo[], hash: number) => void,
+): Promise<void> {
+  let promiseAry = scholars.map(scholar => {
+    return async () => {
+      let address = scholar.walletAddress;
+      const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
+      const today = new Date();
+      const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
+      const differenceDays = Math.floor(difference) + 1;
+      const averageSLP = Math.floor((total - claimable_total) / differenceDays);
+
+      return {
+        name: scholar.name,
+        walletAddress: scholar.walletAddress,
+        totalSLP: total,
+        lastClaimed: last_claimed_item_at,
+        averageSLP: averageSLP,
+        days: differenceDays,
+        claimedSLP: claimable_total,
+        unclaimedSLP: total - claimable_total,
+        scholarId: scholar.scholarId,
+      }
+    }
+  });
+  let a: IScholarInfo[] = [];
+  for (const promise of promiseAry) {
+    a = [...a, await promise()]
+    if (window.taskId == hashId) setScholarInfo(a, hashId)
+    else break
+  }
+}
+
 
 function Home() {
   const [cookies, setCookie] = useCookies(['user']);
@@ -41,9 +80,16 @@ function Home() {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [toggleGroupDetail, setToggleGroupDetail] = useState(false);
   const [toggleScholarInput, setToggleScholarInput] = useState(false);
+  const [data, setData] = useState<IScholarInfo[]>([])
   // total
   // const scholarsByGroup = groupId !== '-1' ? Object.values(data).filter(data => data.groupId === groupId) : Object.values(data).filter(data => true);
-  const { data } = useSWR<IScholarInfo[]>(scholars.map(s => s.name).join(';'), loadData);
+  // const { data } = useSWR<IScholarInfo[]>(scholars.map(s => s.name).join(';'), loadData);
+
+  const handleChangeScholars = (scholars: Scholar[]) => {
+    window.taskId = Math.random()
+    setScholars(scholars)
+    loadData(window.taskId, scholars, setData);
+  }
   // const [state, setSelected] = useStateWithPartialSetter<{}>({
   //   manager: '',
   // });
@@ -63,7 +109,7 @@ function Home() {
             scholarId: doc.id,
           });
         });
-        setScholars(ary);
+        handleChangeScholars(ary);
       });
     } else {
       db.collection('scholars').where('uid', '==', cookies.user ?? '').where('groupId', '==', groupId).get()
@@ -75,7 +121,7 @@ function Home() {
             scholarId: doc.id,
           });
         });
-        setScholars(ary);
+        handleChangeScholars(ary);
       });
     }
   }, [groupId]);
@@ -213,34 +259,6 @@ function Home() {
     setGroups(newGroups);
   }
 
-  async function loadData(): Promise<IScholarInfo[]> {
-    let ary = await Promise.all(scholars.map(scholar => {
-      return (async (): Promise<IScholarInfo> => {
-        let address = scholar.walletAddress;
-        const response = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items?offset=0&limit=1`);
-        const items = response.items;
-        const scholarData = items[0];
-        const today = new Date();
-        const difference = Math.abs(today.getTime() - scholarData.last_claimed_item_at * 1000) / 86400000;
-        const differenceDays = Math.floor(difference) + 1;
-        const averageSLP = Math.floor((scholarData.total - scholarData.claimable_total) / differenceDays);
-
-        return {
-          name: scholar.name,
-          walletAddress: scholar.walletAddress,
-          totalSLP: items[0].total,
-          lastClaimed: items[0].last_claimed_item_at,
-          averageSLP: averageSLP,
-          days: differenceDays,
-          claimedSLP: scholarData.claimable_total,
-          unclaimedSLP: items[0].total - scholarData.claimable_total,
-          scholarId: scholar.scholarId,
-        }
-      })();
-    }));
-
-    return ary;
-  }
 
   function handleGroup(groupName: string) {
     const selectedGroup = lodash.find(groups, (group) => group.name === groupName);
