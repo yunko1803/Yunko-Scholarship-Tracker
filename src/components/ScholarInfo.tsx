@@ -33,7 +33,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
         'ScholarInfo--even': index % 2 == 1,
       })}
     >
-      <div className="ScholarInfo__id">
+      <div className="ScholarInfo__id hidden-in-mobile">
         {index + 1}
       </div>
       <div className="ScholarInfo__name">
@@ -42,10 +42,10 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
       <div className="ScholarInfo__average">
         {scholar.averageSLP}
       </div>
-      <div className="ScholarInfo__unclaimed">
+      <div className="ScholarInfo__unclaimed hidden-in-mobile">
         {scholar.totalSLP - scholar.claimedSLP}
       </div>
-      <div className="ScholarInfo__claimed">
+      <div className="ScholarInfo__claimed hidden-in-mobile">
         {scholar.claimedSLP}
       </div>
       <div className="ScholarInfo__total">
@@ -55,7 +55,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
         {scholar.days}
       </div>
       <div
-        className="ScholarInfo__action"
+        className="ScholarInfo__action hidden-in-mobile"
         onClick={onClickDelete}
       >
         <div

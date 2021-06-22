@@ -20,7 +20,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
       </div>
 
       <div className="ScholarTableHeader__downer Gilroy">
-        <div className="ScholarTableHeader__downer--id">
+        <div className="ScholarTableHeader__downer--id hidden-in-mobile">
           ID
         </div>
         <div className="ScholarTableHeader__downer--name">
@@ -43,7 +43,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
           }
         </div>
         <div
-          className="ScholarTableHeader__downer--unclaimed"
+          className="ScholarTableHeader__downer--unclaimed hidden-in-mobile"
           onClick={() => onClickSortByFeature('unclaimedSLP')}
         >
           Unclaimed
@@ -59,7 +59,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
           }
         </div>
         <div
-          className="ScholarTableHeader__downer--claimed"
+          className="ScholarTableHeader__downer--claimed hidden-in-mobile"
           onClick={() => onClickSortByFeature('claimedSLP')}
         >
           Claimed
@@ -106,7 +106,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
             )
           }
         </div>
-        <div className="ScholarTableHeader__downer--action">
+        <div className="ScholarTableHeader__downer--action hidden-in-mobile">
           Action
         </div>
       </div>

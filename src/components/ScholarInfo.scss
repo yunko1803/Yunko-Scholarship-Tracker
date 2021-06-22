@@ -34,6 +34,10 @@
   align-items: center;
   text-align: left;
   margin-left: rem(6.3);
+
+  @include mobile {
+    margin-left: rem(3);
+  }
 }
 
 .ScholarInfo__average {
@@ -43,6 +47,10 @@
   text-align: left;
   margin-left: rem(7);
   align-items: center;
+
+  @include mobile {
+    margin-left: rem(3);
+  }
 }
 
 .ScholarInfo__unclaimed {
@@ -70,6 +78,10 @@
   text-align: left;
   margin-left: rem(2);
   align-items: center;
+
+  @include mobile {
+    margin-left: rem(3);
+  }
 }
 
 .ScholarInfo__days {
@@ -79,6 +91,10 @@
   text-align: left;
   margin-left: rem(4);
   align-items: center;
+
+  @include mobile {
+    margin-left: rem(3);
+  }
 }
 
 .ScholarInfo__action {

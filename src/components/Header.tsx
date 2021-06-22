@@ -29,7 +29,7 @@ const Header: React.FC<Props> = ({ className, manager, onClickLogin, onClickLogo
       </div>
 
       {isLoggedIn && (
-        <div className="Header__user">
+        <div className="Header__user hidden-in-mobile">
           <span className="Header__user__greeting">
             Welcome,
           </span>

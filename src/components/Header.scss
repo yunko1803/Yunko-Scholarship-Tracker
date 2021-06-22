@@ -8,6 +8,10 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  @include mobile {
+    margin-top: rem(2);
+  }
 }
 
   .Header__logo {
@@ -15,6 +19,10 @@
     flex: 1;
     display: flex;
     align-items: center;
+
+    @include mobile {
+      margin-left: rem(2);
+    }
   }
 
     .Header__logo__img {
@@ -59,5 +67,11 @@
         background: $gray-400;
         // color: $white;
       }
+    }
+
+    @include mobile {
+      margin-right: rem(2);
+      width: rem(8) !important;
+      height: rem(4);
     }
   }

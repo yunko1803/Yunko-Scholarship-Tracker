@@ -14,11 +14,26 @@
   &--close {
     height: rem(0);
   }
+
+  @include mobile {
+    height: rem(26);
+    transition: height 200ms;
+    flex-direction: column;
+
+    &--close {
+      height: rem(0);
+    }
+  }
 }
 
   .Footer__first {
     margin-left: rem(18);
     display: flex;
+
+    @include mobile {
+      margin-left: rem(2);
+      margin-bottom: rem(2.5);
+    }
   }
 
     .Footer__first__image {
@@ -30,11 +45,24 @@
   .Footer__second {
     margin-left: rem(10);
     width: rem(20);
+
+    @include mobile {
+      margin-left: rem(2);
+      margin-bottom: rem(2.5);
+      width: 100%;
+      font-size: rem(1.8);
+    }
   }
 
     .Footer__second__description {
       text-align: left;
-      margin-bottom: rem(3);
+      margin-bottom: rem(4);
+    }
+
+    .Footer__second__contact {
+      text-align: left;
+      margin-bottom: rem(4);
+      font-size: rem(1.8);
     }
 
     .Footer__second__copyright {
@@ -51,6 +79,11 @@
 
   .Footer__third {
     margin-left: rem(10);
+
+    @include mobile {
+      margin-left: rem(2);
+      margin-bottom: rem(2.5);
+    }
   }
 
   .Footer__icon {
@@ -60,4 +93,9 @@
     width: rem(5);
     height: rem(5);
     cursor: pointer;
+
+    @include mobile {
+      top: rem(0);
+      right: rem(2);
+    }
   }

@@ -3,12 +3,20 @@
 
 .Header {
   margin-bottom: rem(5);
+
+  @include mobile {
+    margin-bottom: rem(2);
+  }
 }
 
 .Home {
   @include padding-horizontal(rem(17));
   margin-top: rem(2);
   height: 65vh;
+
+  @include mobile {
+    @include padding-horizontal(rem(2));
+  }
 }
 
 .Home__account {
@@ -30,7 +38,12 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: rem(3.6)
+  margin-bottom: rem(3.6);
+
+  @include mobile {
+    width: 100%;
+    margin-bottom: rem(2.4);
+  }
 }
 
   .Home__title__group {
@@ -84,6 +97,15 @@
     &:hover {
       opacity: .7;
     }
+
+    @include mobile {
+      width: rem(8.7);
+    }
+  }
+
+  .Home__title__mobile {
+    font-size: rem(2.4);
+    margin-bottom: rem(1.6);
   }
 
   .Home__statistic {

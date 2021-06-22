@@ -15,6 +15,7 @@ import GroupDetail from '../components/GroupDetail';
 import Header from '../components/Header';
 import EmptyScholars from '../containers/EmptyScholars';
 import Footer from '../components/Footer';
+import { isMobile } from '../utils/misc';
 import useSWR from 'swr';
 import { get } from '../apis/request';
 // import { useStateWithPartialSetter } from '../hooks/utils';
@@ -163,16 +164,17 @@ function Home() {
             </button>
           </div>
 
-
-          {!lodash.isEmpty(data) && <div className="Home__title__name Gilroy">{findGroupName(groupId)}</div>}
+          {!lodash.isEmpty(data) && <div className="Home__title__name Gilroy hidden-in-mobile">{findGroupName(groupId)}</div>}
 
           <button
             onClick={() => isLoggedIn ? setToggleScholarInput(true) : setToggleLogin(true)}
             className="Home__title__button Gilroy"
           >
-            + Add Scholar
+            {!isMobile() ? '+ Add Scholar' : '+ Add'}
           </button>
         </div>
+
+        {!lodash.isEmpty(data) && <div className="Home__title__mobile Gilroy hidden-in-desktop">{findGroupName(groupId)}</div>}
 
         {
           !!isLoggedIn && (

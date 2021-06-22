@@ -29,6 +29,10 @@ const Footer: React.FC<Props> = ({ className }) => {
           Scholar Tracker is made by Yoonkeun Koh.
         </div>
 
+        <div className="Footer__second__contact hidden-in-desktop">
+          Contact: yk1803@nyu.edu
+        </div>
+
         <div className="Footer__second__copyright">
           <img
             className="Footer__second__logo"
@@ -38,7 +42,7 @@ const Footer: React.FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <div className="Footer__third">
+      <div className="Footer__third hidden-in-mobile">
         yk1803@nyu.edu
       </div>
 

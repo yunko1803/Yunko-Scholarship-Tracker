@@ -4,6 +4,10 @@
 .Statistic {
   display: flex;
   justify-content: space-evenly;
+
+  @include mobile {
+    flex-direction: column;
+  }
 }
 
   .Statistic__loading {
@@ -22,6 +26,12 @@
     border-radius: rem(1);
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
     background-color: #FFFFFF;
+
+    @include mobile {
+      width: 100%;
+      height: rem(13.6);
+      margin-bottom: rem(1.6);
+    }
   }
 
   .Statistic__info__title {
@@ -30,6 +40,11 @@
     font-size: rem(1.8);
     display: flex;
     align-items: center;
+
+    @include mobile {
+      margin-top: rem(2.5);
+      margin-bottom: rem(2.4);
+    }
   }
 
     .Statistic__info__title__detail {

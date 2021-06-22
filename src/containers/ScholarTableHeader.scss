@@ -11,6 +11,10 @@
     border-bottom: rem(.1) solid #E0E0E0;
     padding-bottom: rem(1);
     align-self: center;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .ScholarTableHeader__downer {
@@ -28,6 +32,10 @@
     &--name {
       margin-left: rem(5);
       flex: 1;
+
+      @include mobile {
+        margin-left: rem(2);
+      }
     }
 
     &--average {
@@ -44,6 +52,10 @@
           color: $primary;
           transform: rotate(180deg);
         }
+      }
+
+      @include mobile {
+        margin-left: rem(3);
       }
     }
 
@@ -96,6 +108,10 @@
           transform: rotate(180deg);
         }
       }
+
+      @include mobile {
+        margin-left: rem(4);
+      }
     }
 
     &--days {
@@ -112,6 +128,10 @@
           color: $primary;
           transform: rotate(180deg);
         }
+      }
+
+      @include mobile {
+        margin-left: rem(3);
       }
     }
 
