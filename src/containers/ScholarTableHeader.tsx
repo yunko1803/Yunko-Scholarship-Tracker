@@ -20,7 +20,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
       </div>
 
       <div className="ScholarTableHeader__downer Gilroy">
-        <div className="ScholarTableHeader__downer--id hidden-in-mobile">
+        <div className="ScholarTableHeader__downer--id">
           ID
         </div>
         <div className="ScholarTableHeader__downer--name">

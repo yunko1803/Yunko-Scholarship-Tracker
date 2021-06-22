@@ -33,7 +33,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
         'ScholarInfo--even': index % 2 == 1,
       })}
     >
-      <div className="ScholarInfo__id hidden-in-mobile">
+      <div className="ScholarInfo__id">
         {index + 1}
       </div>
       <div className="ScholarInfo__name">

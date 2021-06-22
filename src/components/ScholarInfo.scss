@@ -25,6 +25,11 @@
   align-items: center;
   text-align: left;
   margin-left: rem(2.2);
+
+  @include mobile {
+    flex: .5;
+    margin-left: rem(1.5);
+  }
 }
 
 .ScholarInfo__name {
@@ -36,7 +41,8 @@
   margin-left: rem(6.3);
 
   @include mobile {
-    margin-left: rem(3);
+    flex: 1;
+    margin-left: rem(0.5);
   }
 }
 
@@ -49,7 +55,8 @@
   align-items: center;
 
   @include mobile {
-    margin-left: rem(3);
+    flex: 1;
+    margin-left: 0;
   }
 }
 
@@ -80,7 +87,8 @@
   align-items: center;
 
   @include mobile {
-    margin-left: rem(3);
+    flex: 1;
+    margin-left: rem(1);
   }
 }
 
@@ -93,7 +101,9 @@
   align-items: center;
 
   @include mobile {
-    margin-left: rem(3);
+    flex: .5;
+    margin-left: 0;
+    justify-content: center;
   }
 }
 
