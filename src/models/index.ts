@@ -21,11 +21,11 @@ export interface IScholarInfo {
   days: number;
   scholarId: string;
   scholarShare: number;
-  // winTotal: number;
-  // rank: number;
-  // loseTotal: number;
-  // drawTotal: number;
-  // elo: number;
+  winTotal: number;
+  rank: number;
+  loseTotal: number;
+  drawTotal: number;
+  elo: number;
 }
 
 export interface IGroup {

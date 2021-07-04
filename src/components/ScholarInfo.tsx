@@ -20,7 +20,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
   return (
     <div
       className={classNames('ScholarInfo', className, {
-        'ScholarInfo--even': index % 2 == 1,
+        'ScholarInfo--even': index % 2 === 1,
       })}
     >
       <div className="ScholarInfo__id">
@@ -41,18 +41,18 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
       <div className="ScholarInfo__total">
         {scholar.totalSLP}
       </div>
-      <div className="ScholarInfo__days">
+      <div className="ScholarInfo__days hidden-in-mobile">
         {scholar.days}
       </div>
       <div className="ScholarInfo__mmr">
-        {/* {scholar.elo} */}
-        soon
+        {scholar.elo}
+        {/* soon */}
       </div>
-      <div className="ScholarInfo__rank">
-        {/* {scholar.rank} */}
-        soon
+      <div className="ScholarInfo__rank hidden-in-mobile">
+        {scholar.rank}
+        {/* soon */}
       </div>
-      <div className="ScholarInfo__sharing">
+      <div className="ScholarInfo__sharing hidden-in-mobile">
         {`${Math.ceil(scholar.totalSLP * scholarSharing)} / ${scholar.totalSLP - Math.ceil(scholar.totalSLP * scholarSharing)}`}
       </div>
       <div

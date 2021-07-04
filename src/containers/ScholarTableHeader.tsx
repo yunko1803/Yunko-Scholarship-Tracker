@@ -104,7 +104,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
           }
         </div>
         <div
-          className="ScholarTableHeader__downer--days"
+          className="ScholarTableHeader__downer--days hidden-in-mobile"
           onClick={() => onClickSortByFeature('days')}
         >
           Days
@@ -119,11 +119,37 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
             )
           }
         </div>
-        <div className="ScholarTableHeader__downer--mmr hidden-in-mobile">
+        <div
+          className="ScholarTableHeader__downer--mmr"
+          onClick={() => onClickSortByFeature('elo')}
+        >
           MMR
+          {
+            iteratee === 'elo' && (
+              <SvgIcon
+                className={classNames('ScholarTableHeader__downer--mmr__icon', {
+                  'ScholarTableHeader__downer--mmr__icon--upward': order === 'asc'
+                })}
+                icon="arrow-down"
+              />
+            )
+          }
         </div>
-        <div className="ScholarTableHeader__downer--rank hidden-in-mobile">
+        <div
+          className="ScholarTableHeader__downer--rank hidden-in-mobile"
+          onClick={() => onClickSortByFeature('rank')}
+        >
           Rank
+          {
+            iteratee === 'rank' && (
+              <SvgIcon
+                className={classNames('ScholarTableHeader__downer--rank__icon', {
+                  'ScholarTableHeader__downer--rank__icon--upward': order === 'asc'
+                })}
+                icon="arrow-down"
+              />
+            )
+          }
         </div>
         <div className="ScholarTableHeader__downer--sharing hidden-in-mobile">
           S / M

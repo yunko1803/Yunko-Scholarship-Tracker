@@ -28,6 +28,7 @@
   align-items: center;
 
   @include mobile {
+    width: rem(2);
   }
 }
 
@@ -41,6 +42,8 @@
   padding-right: rem(1);
 
   @include mobile {
+    padding-right: 0;
+    width: rem(7);
   }
 }
 
@@ -51,6 +54,7 @@
   width: rem(8);
 
   @include mobile {
+    width: rem(5);
   }
 }
 
@@ -75,6 +79,7 @@
   width: rem(10);
 
   @include mobile {
+    width: rem(6);
   }
 }
 

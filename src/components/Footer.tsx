@@ -27,6 +27,8 @@ const Footer: React.FC<Props> = ({ className }) => {
       <div className="Footer__second">
         <div className="Footer__second__description">
           Scholar Tracker is made by Yoonkeun Koh.
+          <br />
+          Design credits to Nick Kim.
         </div>
 
         <div className="Footer__second__contact hidden-in-desktop">

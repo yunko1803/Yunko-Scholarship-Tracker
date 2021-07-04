@@ -67,7 +67,6 @@
       }
 
       @include mobile {
-        margin-left: rem(4);
       }
     }
 
@@ -119,7 +118,6 @@
       }
 
       @include mobile {
-        margin-left: rem(4);
       }
     }
 
@@ -139,16 +137,39 @@
       }
 
       @include mobile {
-        margin-left: rem(3);
       }
     }
 
     &--mmr {
       min-width: rem(8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .ScholarTableHeader__downer--mmr__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
     }
 
     &--rank {
       min-width: rem(8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .ScholarTableHeader__downer--rank__icon {
+        color: $green;
+
+        &--upward {
+          color: $primary;
+          transform: rotate(180deg);
+        }
+      }
     }
 
     &--sharing {

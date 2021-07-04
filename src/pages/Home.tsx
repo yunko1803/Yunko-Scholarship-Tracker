@@ -41,14 +41,12 @@ async function loadData(
     return async () => {
       let address = scholar.walletAddress;
       const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
-      // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
-      // console.log(address);
-      // console.log(items);
+      const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
       const today = new Date();
       const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
       const differenceDays = Math.floor(difference) + 1;
       const averageSLP = Math.floor((total - claimable_total) / differenceDays);
-      // const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
+      const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
 
       return {
         groupId: scholar.groupId,
@@ -62,11 +60,11 @@ async function loadData(
         unclaimedSLP: total - claimable_total,
         scholarId: scholar.scholarId,
         scholarShare: scholar.scholarShare,
-        // winTotal,
-        // rank,
-        // loseTotal,
-        // drawTotal,
-        // elo
+        winTotal,
+        rank,
+        loseTotal,
+        drawTotal,
+        elo
       }
     }
   });
@@ -113,7 +111,7 @@ function Home() {
           ary.push({
             ...doc.data(),
             scholarId: doc.id,
-            scholarShare: !doc.data().scholarShare ? NaN : doc.data().scholarShare
+            scholarShare: (doc.data().scholarShare === undefined) ? NaN : doc.data().scholarShare
           });
         });
         handleChangeScholars(ary);
@@ -126,7 +124,7 @@ function Home() {
           ary.push({
             ...doc.data(),
             scholarId: doc.id,
-            scholarShare: !doc.data().scholarShare ? NaN : doc.data().scholarShare
+            scholarShare: (doc.data().scholarShare === undefined) ? NaN : doc.data().scholarShare
           });
         });
         handleChangeScholars(ary);
@@ -295,12 +293,12 @@ function Home() {
 
     let address = scholar.walletAddress;
     const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
-    // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+    const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
     const today = new Date();
     const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
     const differenceDays = Math.floor(difference) + 1;
     const averageSLP = Math.floor((total - claimable_total) / differenceDays);
-    // const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
+    const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
 
     const newData =  {
       groupId: scholar.groupId,
@@ -313,12 +311,12 @@ function Home() {
       claimedSLP: claimable_total,
       unclaimedSLP: total - claimable_total,
       scholarId,
-      scholarShare: scholar.scholarShare
-      // winTotal,
-      // rank,
-      // loseTotal,
-      // drawTotal,
-      // elo
+      scholarShare: scholar.scholarShare,
+      winTotal,
+      rank,
+      loseTotal,
+      drawTotal,
+      elo
     };
 
     setData([...data, newData]);
@@ -367,7 +365,7 @@ function Home() {
     const newData = data.filter((scholarDetail) => {
       if (scholarDetail.scholarId !== editedScholar.scholarId) return true;
       else {
-        if (scholarDetail.groupId === editedScholar.scholarId) return true;
+        if (scholarDetail.groupId === editedScholar.groupId) return true;
         return false;
       }
     })
@@ -385,7 +383,12 @@ function Home() {
           claimedSLP: scholarDetail.claimedSLP,
           unclaimedSLP: scholarDetail.unclaimedSLP,
           scholarId: editedScholar.scholarId,
-          scholarShare: editedScholar.scholarShare
+          scholarShare: editedScholar.scholarShare,
+          winTotal: scholarDetail.winTotal,
+          rank: scholarDetail.rank,
+          loseTotal: scholarDetail.loseTotal,
+          drawTotal: scholarDetail.drawTotal,
+          elo: scholarDetail.elo
         }
       }
     });

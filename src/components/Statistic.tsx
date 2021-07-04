@@ -16,6 +16,7 @@ const Statistic: React.FC<Props> = ({ className, scholars, data }) => {
   const maxSLPScholar = lodash.maxBy(data, (scholar) => scholar.totalSLP);
   const maxAverageSLPScholar = lodash.maxBy(data, (scholar) => scholar.averageSLP);
   const totalSLP = lodash.sumBy(data, scholar => scholar.totalSLP);
+  const totalScholarSLP = lodash.sumBy(data, scholar => (scholar.totalSLP * (scholar.scholarShare / 100)) );
 
   if (lodash.isEmpty(scholars)) return <div></div>;
 
@@ -74,11 +75,11 @@ const Statistic: React.FC<Props> = ({ className, scholars, data }) => {
             className="Statistic__info__title__icon"
             src={process.env.PUBLIC_URL + '/images/SLP.png'}
           />
-          Total SLP
+          Total SLP (S / M)
         </div>
         {!totalSLP ? <Loading /> : (
           <div className="Statistic__info__title__detail__number Gilroy">
-            {totalSLP}
+            {`${Math.ceil(totalScholarSLP)} / ${totalSLP - Math.ceil(totalScholarSLP)}`}
           </div>
         )}
       </div>
