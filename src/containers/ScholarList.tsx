@@ -16,9 +16,10 @@ type Props = {
   groupId: string;
   data?: IScholarInfo[];
   manager: string;
+  onClickEditScholar: (scholar: Scholar) => void;
 };
 
-const ScholarList: React.FC<Props> = ({ className, scholars, data, onClickDeleteScholar, propagateData, groupId, manager, }) => {
+const ScholarList: React.FC<Props> = ({ className, scholars, data, onClickDeleteScholar, propagateData, groupId, manager, onClickEditScholar }) => {
 
   if (isEmpty(data) && !isEmpty(scholars)) return <Loading className="ScholarList__loading" />;
   if (isEmpty(data) && isEmpty(scholars))
@@ -61,6 +62,7 @@ const ScholarList: React.FC<Props> = ({ className, scholars, data, onClickDelete
           onClickDeleteScholar={onClickDeleteScholar}
           propagateData={propagateData}
           groupId={groupId}
+          onClickEditScholar={onClickEditScholar}
         />
       ))}
     </div>

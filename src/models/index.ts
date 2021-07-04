@@ -6,9 +6,11 @@ export interface Scholar {
   walletAddress?: string;
   groupId?: string;
   scholarId: string;
+  scholarShare: number;
 }
 
 export interface IScholarInfo {
+  groupId?: string;
   name?: string;
   walletAddress?: string;
   totalSLP: number;
@@ -18,6 +20,12 @@ export interface IScholarInfo {
   unclaimedSLP: number;
   days: number;
   scholarId: string;
+  scholarShare: number;
+  // winTotal: number;
+  // rank: number;
+  // loseTotal: number;
+  // drawTotal: number;
+  // elo: number;
 }
 
 export interface IGroup {

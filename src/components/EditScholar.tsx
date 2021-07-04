@@ -1,40 +1,42 @@
-import './ScholarInput.scss';
+import './EditScholar.scss';
 
 import React from 'react';
 import classNames from 'classnames';
-import web3 from 'web3';
 import lodash from 'lodash';
-import { useCookies } from "react-cookie";
+import web3 from 'web3';
 import Dropdown from './Dropdown';
 import { IGroup, Scholar } from '../models';
 
 type Props = {
   className?: string;
+  scholar: Scholar;
   groups: IGroup[];
-  addScholar: (scholar: Scholar) => void;
+  editScholar: (scholar: Scholar) => void;
+  onClickcloseModal: () => void;
 };
 
-const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
-  const [name, setName] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [scholarShare, setScholarShare] = React.useState(0);
-  const [group, setGroup] = React.useState(lodash.isEmpty(groups) ? '' : groups[0].name);
-  const [cookies] = useCookies(['user']);
+const EditScholar: React.FC<Props> = ({ className, scholar, groups, editScholar, onClickcloseModal }) => {
+  const [name, setName] = React.useState(scholar.name ?? 'none');
+  const [address, setAddress] = React.useState(scholar.walletAddress!.replace('0x', 'ronin:'));
+  const [scholarShare, setScholarShare] = React.useState(scholar.scholarShare);
+  const selectedGroup = groups.filter((group) => group.id === scholar.groupId);
+  const [group, setGroup] = React.useState(selectedGroup[0].name);
 
   return (
-    <div className={classNames('ScholarInput', className)}>
-      <div className="ScholarInput__first">
+    <div className={classNames('EditScholar', className)}>
+      <div className="EditScholar__first">
         <Dropdown
-          className="ScholarInput__first__group"
-          buttonClassName="ScholarInput__first__group__button"
+          className="EditScholar__first__group"
+          buttonClassName="EditScholar__first__group__button"
           items={lodash.isEmpty(groups) ? [] : groups.filter((group) => group.name !== 'Total').map((group) => group.name)}
+          defaultValue={group}
           onChange={setGroup}
         />
         <div
-          className="ScholarInput__first__border"
+          className="EditScholar__first__border"
         />
         <input
-          className="ScholarInput__first__name"
+          className="EditScholar__first__name"
           placeholder="Name of Scholar"
           value={name}
           onChange={handleChangeName}
@@ -42,32 +44,32 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
       </div>
 
       <input
-        className="ScholarInput__second"
+        className="EditScholar__second"
         placeholder="ronin:blahblahblah0123456789abcdef"
         value={address}
         onChange={handleChangeAddress}
       />
 
-      <div className="ScholarInput__sharing">
-        <div className="ScholarInput__sharing__scholar">
-          <div className="ScholarInput__sharing__scholar__label">Scholar Share</div>
+      <div className="EditScholar__sharing">
+        <div className="EditScholar__sharing__scholar">
+          <div className="EditScholar__sharing__scholar__label">Scholar Share</div>
           <div
-            className="ScholarInput__first__border"
+            className="EditScholar__first__border"
           />
           <input
-            className="ScholarInput__sharing__scholar__input"
+            className="EditScholar__sharing__scholar__input"
             placeholder="Scholar Share (%)"
             value={scholarShare}
             onChange={handleChangeShare}
           />
         </div>
-        <div className="ScholarInput__sharing__manager">
-          <div className="ScholarInput__sharing__manager__label">Manager Share</div>
+        <div className="EditScholar__sharing__manager">
+          <div className="EditScholar__sharing__manager__label">Manager Share</div>
           <div
-            className="ScholarInput__first__border"
+            className="EditScholar__first__border"
           />
           <input
-            className="ScholarInput__sharing__manager__input"
+            className="EditScholar__sharing__manager__input"
             disabled
             value={100 - scholarShare}
           />
@@ -75,9 +77,8 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
 
       </div>
       <button
-        className="ScholarInput__button Gilroy"
+        className="EditScholar__button Gilroy"
         onClick={onClickAddScholar}
-        disabled={!cookies.user}
       >
         + Add
       </button>
@@ -85,22 +86,18 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
   );
 
   function handleChangeName(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!cookies.user) return;
-
     const name = e.target.value;
     setName(name);
   }
 
   function handleChangeAddress(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!cookies.user) return;
-
     const walletAddress = e.target.value;
     setAddress(walletAddress);
   }
 
   function handleChangeShare(e: React.ChangeEvent<HTMLInputElement>) {
     const share = parseInt(e.target.value.replace(/\D/g, ''));
-    if (!cookies.user || share > 100) return;
+    if (share > 100) return;
 
     setScholarShare(share);
   }
@@ -114,16 +111,15 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
 
     const selectedGroup = groups.filter(singleGroup => singleGroup.name === group);
 
-    addScholar({
+    editScholar({
       name,
       groupId: selectedGroup[0].id,
       walletAddress: ethAddress,
       scholarShare,
-      scholarId: '',
+      scholarId: scholar.scholarId,
     });
-    setName('');
-    setAddress('');
+    onClickcloseModal();
   }
 };
 
-export default ScholarInput;
+export default EditScholar;

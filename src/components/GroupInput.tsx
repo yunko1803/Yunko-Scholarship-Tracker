@@ -36,7 +36,7 @@ const GroupInput: React.FC<Props> = ({ className, groups, manager, uid, dbId, on
   );
 
   function addGroup() {
-    if (name == '') return;
+    if (name === '') return;
     // eslint-disable-next-line
     if (!confirm(`Would you like to add ${name} to the groups?`)) return;
     setName('');
@@ -56,7 +56,6 @@ const GroupInput: React.FC<Props> = ({ className, groups, manager, uid, dbId, on
       });
     } else {
       const greatestIdGroup = lodash.maxBy(groups, group => parseInt(group.id));
-      console.log(greatestIdGroup);
       const nextId = (parseInt(greatestIdGroup!.id) + 1) + '';
       const newGroups = [...groups, {
         id: nextId,

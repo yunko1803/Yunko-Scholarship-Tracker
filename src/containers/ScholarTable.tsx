@@ -16,9 +16,10 @@ type Props = {
   onClickDeleteScholar: (scholar: IScholarInfo) => void;
   propagateData: (data: any) => void;
   manager: string;
+  onClickEditScholar: (scholar: Scholar) => void;
 };
 
-const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onClickDeleteScholar, propagateData, manager }) => {
+const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onClickDeleteScholar, propagateData, manager, onClickEditScholar }) => {
 
   const [sorter, setSorter] = useStateWithPartialSetter<{
     iteratee: string;
@@ -43,6 +44,7 @@ const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onC
         propagateData={propagateData}
         groupId={groupId}
         manager={manager}
+        onClickEditScholar={onClickEditScholar}
       />
     </div>
   );

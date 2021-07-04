@@ -2,9 +2,12 @@
 @import "../styles/colors";
 
 .ScholarInfo {
+  @include padding-horizontal(rem(1));
   height: rem(4);
   display: flex;
   border-radius: rem(1);
+  align-items: center;
+  justify-content: space-between;
 
   &--even {
     background-color: #f2f2f2;
@@ -19,102 +22,107 @@
 }
 
 .ScholarInfo__id {
-  flex: 1;
   height: 100%;
+  width: rem(4);
   display: flex;
   align-items: center;
-  text-align: left;
-  margin-left: rem(2.2);
 
   @include mobile {
-    flex: .5;
-    margin-left: rem(1.5);
   }
 }
 
 .ScholarInfo__name {
-  flex: 1;
+  width: rem(10);
   height: 100%;
   display: flex;
   align-items: center;
-  text-align: left;
-  margin-left: rem(6.3);
+  flex-wrap: wrap;
+  line-break: anywhere;
+  padding-right: rem(1);
 
   @include mobile {
-    flex: 1;
-    margin-left: rem(0.5);
   }
 }
 
 .ScholarInfo__average {
-  flex: 1.3;
   height: 100%;
   display: flex;
-  text-align: left;
-  margin-left: rem(7);
   align-items: center;
+  width: rem(8);
 
   @include mobile {
-    flex: 1;
-    margin-left: 0;
   }
 }
 
 .ScholarInfo__unclaimed {
-  flex: 1.3;
   height: 100%;
+  // min-width: rem(14.5);
   display: flex;
-  text-align: left;
-  margin-left: rem(5);
   align-items: center;
+  width: rem(12);
 }
 
-.ScholarInfo__claimed {
-  flex: 1.3;
-  height: 100%;
-  display: flex;
-  text-align: left;
-  margin-left: rem(7);
-  align-items: center;
-}
+// .ScholarInfo__claimed {
+//   height: 100%;
+//   display: flex;
+//   align-items: center;
+// }
 
 .ScholarInfo__total {
-  flex: 1.3;
   height: 100%;
   display: flex;
-  text-align: left;
-  margin-left: rem(2);
   align-items: center;
+  width: rem(10);
 
   @include mobile {
-    flex: 1;
-    margin-left: rem(1);
   }
 }
 
 .ScholarInfo__days {
-  flex: 1;
   height: 100%;
   display: flex;
-  text-align: left;
-  margin-left: rem(4);
   align-items: center;
+  width: rem(8);
 
   @include mobile {
-    flex: .5;
-    margin-left: 0;
-    justify-content: center;
+  }
+}
+
+.ScholarInfo__mmr {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: rem(8);
+
+  @include mobile {
+  }
+}
+
+.ScholarInfo__rank {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: rem(7);
+
+  @include mobile {
+  }
+}
+
+.ScholarInfo__sharing {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: rem(10);
+
+  @include mobile {
   }
 }
 
 .ScholarInfo__action {
-  flex: 1;
-  height: 100%;
   display: flex;
-  text-align: left;
-  margin-left: rem(2);
   align-items: center;
-
+  justify-content: flex-end;
+  width: rem(6);
 }
 
   .ScholarInfo__action__icon {
@@ -128,8 +136,17 @@
     justify-content: center;
     align-items: center;
 
-    &:hover {
-      background-color: #F33D48;
+    &.edit {
+      &:hover {
+        background-color: #7BD74F;
+      }
+    }
+
+    &.delete {
+      margin-left: rem(.2);
+      &:hover {
+        background-color: #F33D48;
+      }
     }
   }
 

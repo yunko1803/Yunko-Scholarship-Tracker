@@ -1,7 +1,7 @@
 @import "../styles/mixins";
 @import "../styles/colors";
 
-.ScholarInput {
+.EditScholar {
   display: flex;
   flex-direction: column;
   margin-left: rem(4);
@@ -9,7 +9,7 @@
   background-color: transparent;
 }
 
-  .ScholarInput__first {
+  .EditScholar__first {
     display: flex;
     margin-bottom: rem(1);
     justify-content: flex-end;
@@ -20,24 +20,24 @@
     border-radius: rem(.6);
   }
 
-    .ScholarInput__first__group {
+    .EditScholar__first__group {
       margin-right: rem(1);
       position: absolute;
       left: 0;
     }
 
-    .ScholarInput__first__border {
+    .EditScholar__first__border {
       height: rem(3);
       border: .1px solid #C4C4C4;
     }
 
-      .ScholarInput__first__group__button {
+      .EditScholar__first__group__button {
         border: none !important;
         height: rem(6) !important;
         border-radius: rem(.6) !important;
       }
 
-    .ScholarInput__first__name {
+    .EditScholar__first__name {
       width: 75%;
       height: rem(6);
       border: none;
@@ -53,7 +53,7 @@
       }
     }
 
-  .ScholarInput__second {
+  .EditScholar__second {
     height: rem(6);
     margin-bottom: rem(1);
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
@@ -70,7 +70,7 @@
     }
   }
 
-  .ScholarInput__sharing {
+  .EditScholar__sharing {
     height: rem(6);
     display: flex;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
@@ -82,7 +82,7 @@
     margin-bottom: rem(1);
   }
 
-    .ScholarInput__sharing__scholar {
+    .EditScholar__sharing__scholar {
       flex: 1;
       display: flex;
       border-right: 1px solid #C4C4C4;
@@ -91,11 +91,11 @@
       padding-left: rem(2);
     }
 
-      .ScholarInput__sharing__scholar__label {
+      .EditScholar__sharing__scholar__label {
         margin-right: rem(2);
       }
 
-      .ScholarInput__sharing__scholar__input {
+      .EditScholar__sharing__scholar__input {
         height: rem(6);
         border: none;
         text-indent: rem(2);
@@ -105,7 +105,7 @@
         }
       }
 
-    .ScholarInput__sharing__manager {
+    .EditScholar__sharing__manager {
       display: flex;
       flex: 1;
       align-items: center;
@@ -114,11 +114,11 @@
       padding-left: rem(2);
     }
 
-      .ScholarInput__sharing__manager__label {
+      .EditScholar__sharing__manager__label {
         margin-right: rem(2);
       }
 
-      .ScholarInput__sharing__manager__input {
+      .EditScholar__sharing__manager__input {
         height: rem(6);
         border: none;
         text-indent: rem(2);
@@ -129,7 +129,7 @@
         }
       }
 
-  .ScholarInput__button {
+  .EditScholar__button {
     background-color: #5892E9;
     border: none;
     border-radius: rem(.25);

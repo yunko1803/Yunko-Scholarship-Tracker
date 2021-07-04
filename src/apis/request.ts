@@ -25,8 +25,11 @@ export class HttpError extends Error {
 
 const handleResult = async (result: Response) => {
   const json = await result.json();
+  // console.log(json);
   if (!result.ok) {
-    throw new HttpError(json);
+    // throw new HttpError(json);
+    // throw new Error('error');
+    console.error(json);
   }
 
   return json;

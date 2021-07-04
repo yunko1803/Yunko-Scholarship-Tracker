@@ -16,15 +16,28 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
   return (
     <div className={classNames('ScholarTableHeader', className)}>
       <div className="ScholarTableHeader__upper Gilroy">
-        SLP
+        Scholars
       </div>
 
       <div className="ScholarTableHeader__downer Gilroy">
         <div className="ScholarTableHeader__downer--id">
           ID
         </div>
-        <div className="ScholarTableHeader__downer--name">
+        <div
+          className="ScholarTableHeader__downer--name"
+          onClick={() => onClickSortByFeature('name')}
+        >
           Name
+          {
+            iteratee === 'name' && (
+              <SvgIcon
+                className={classNames('ScholarTableHeader__downer--name__icon', {
+                  'ScholarTableHeader__downer--name__icon--upward': order === 'asc'
+                })}
+                icon="arrow-down"
+              />
+            )
+          }
         </div>
         <div
           className="ScholarTableHeader__downer--average"
@@ -58,7 +71,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
             )
           }
         </div>
-        <div
+        {/* <div
           className="ScholarTableHeader__downer--claimed hidden-in-mobile"
           onClick={() => onClickSortByFeature('claimedSLP')}
         >
@@ -73,7 +86,7 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
               />
             )
           }
-        </div>
+        </div> */}
         <div
           className="ScholarTableHeader__downer--total"
           onClick={() => onClickSortByFeature('totalSLP')}
@@ -105,6 +118,15 @@ const ScholarTableHeader: React.FC<Props> = ({ className, onClickSortByFeature, 
               />
             )
           }
+        </div>
+        <div className="ScholarTableHeader__downer--mmr hidden-in-mobile">
+          MMR
+        </div>
+        <div className="ScholarTableHeader__downer--rank hidden-in-mobile">
+          Rank
+        </div>
+        <div className="ScholarTableHeader__downer--sharing hidden-in-mobile">
+          S / M
         </div>
         <div className="ScholarTableHeader__downer--action hidden-in-mobile">
           Action

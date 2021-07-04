@@ -1,6 +1,6 @@
 import './Home.scss';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { useCookies } from 'react-cookie';
 import { db, firebase } from '../utils/db';
 import lodash from 'lodash';
@@ -16,13 +16,14 @@ import Header from '../components/Header';
 import EmptyScholars from '../containers/EmptyScholars';
 import Footer from '../components/Footer';
 import { isMobile } from '../utils/misc';
-import useSWR from 'swr';
 import { get } from '../apis/request';
+import EditScholar from '../components/EditScholar';
 // import { useStateWithPartialSetter } from '../hooks/utils';
 
 const AccountWithModal = WithModal(Account);
 const GroupDetailWithModal = WithModal(GroupDetail);
 const ScholarInputWithModal = WithModal(ScholarInput);
+const EditScholarWithModal = WithModal(EditScholar);
 
 declare global {
   interface Window {
@@ -40,12 +41,17 @@ async function loadData(
     return async () => {
       let address = scholar.walletAddress;
       const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
+      // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+      // console.log(address);
+      // console.log(items);
       const today = new Date();
       const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
       const differenceDays = Math.floor(difference) + 1;
       const averageSLP = Math.floor((total - claimable_total) / differenceDays);
+      // const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
 
       return {
+        groupId: scholar.groupId,
         name: scholar.name,
         walletAddress: scholar.walletAddress,
         totalSLP: total,
@@ -55,6 +61,12 @@ async function loadData(
         claimedSLP: claimable_total,
         unclaimedSLP: total - claimable_total,
         scholarId: scholar.scholarId,
+        scholarShare: scholar.scholarShare,
+        // winTotal,
+        // rank,
+        // loseTotal,
+        // drawTotal,
+        // elo
       }
     }
   });
@@ -80,7 +92,9 @@ function Home() {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [toggleGroupDetail, setToggleGroupDetail] = useState(false);
   const [toggleScholarInput, setToggleScholarInput] = useState(false);
-  const [data, setData] = useState<IScholarInfo[]>([])
+  const [data, setData] = useState<IScholarInfo[]>([]);
+  const [toggleEditScholar, setToggleEditScholar] = useState(false);
+  const [selectedScholar, setSelectedScholar] = useState<Scholar>({ scholarId: 'none', scholarShare: 0 });
 
   const handleChangeScholars = (scholars: Scholar[]) => {
     window.taskId = Math.random();
@@ -99,6 +113,7 @@ function Home() {
           ary.push({
             ...doc.data(),
             scholarId: doc.id,
+            scholarShare: !doc.data().scholarShare ? NaN : doc.data().scholarShare
           });
         });
         handleChangeScholars(ary);
@@ -111,6 +126,7 @@ function Home() {
           ary.push({
             ...doc.data(),
             scholarId: doc.id,
+            scholarShare: !doc.data().scholarShare ? NaN : doc.data().scholarShare
           });
         });
         handleChangeScholars(ary);
@@ -198,6 +214,7 @@ function Home() {
             data={data}
             className="Home__table"
             onClickDeleteScholar={deleteScholar}
+            onClickEditScholar={onClickEditScholar}
             propagateData={() => {}}
           />
         )}
@@ -243,10 +260,27 @@ function Home() {
             hideClose
           />
         )}
+
+        <EditScholarWithModal
+          theme="dark"
+          isVisible={toggleEditScholar}
+          onClickClose={onClickCloseModal}
+          scholar={selectedScholar}
+          groups={groups}
+          editScholar={editScholar}
+          onClickcloseModal={onClickCloseModal}
+          baseContentClassName="Home__ScholarInputModal__baseContent"
+          hideClose
+        />
       </div>
       <Footer />
     </>
   );
+
+  function onClickEditScholar(scholar: Scholar) {
+    setToggleEditScholar(true)
+    setSelectedScholar(scholar);
+  }
 
   async function addLocalScholar(scholar: Scholar, scholarId: string) {
     const newScholars = [...scholars, {
@@ -254,18 +288,22 @@ function Home() {
       name: scholar.name,
       uid: cookies.user,
       walletAddress: scholar.walletAddress,
+      scholarShare: scholar.scholarShare,
       scholarId: scholarId,
     }];
     setScholars(newScholars);
 
     let address = scholar.walletAddress;
     const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
+    // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
     const today = new Date();
     const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
     const differenceDays = Math.floor(difference) + 1;
     const averageSLP = Math.floor((total - claimable_total) / differenceDays);
+    // const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
 
     const newData =  {
+      groupId: scholar.groupId,
       name: scholar.name,
       walletAddress: scholar.walletAddress,
       totalSLP: total,
@@ -275,6 +313,12 @@ function Home() {
       claimedSLP: claimable_total,
       unclaimedSLP: total - claimable_total,
       scholarId,
+      scholarShare: scholar.scholarShare
+      // winTotal,
+      // rank,
+      // loseTotal,
+      // drawTotal,
+      // elo
     };
 
     setData([...data, newData]);
@@ -301,6 +345,65 @@ function Home() {
     setToggleLogin(false);
     setToggleGroupDetail(false);
     setToggleScholarInput(false);
+    setToggleEditScholar(false);
+  }
+
+  function editScholar(editedScholar: Scholar) {
+    const newScholars = scholars.map(scholar => {
+      if (scholar.scholarId !== editedScholar.scholarId) return scholar;
+      else {
+        return {
+          groupId: editedScholar.groupId,
+          name: editedScholar.name,
+          uid: cookies.user,
+          walletAddress: editedScholar.walletAddress,
+          scholarShare: editedScholar.scholarShare,
+          scholarId: editedScholar.scholarId,
+        };
+      }
+    });
+    setScholars(newScholars);
+
+    const newData = data.filter((scholarDetail) => {
+      if (scholarDetail.scholarId !== editedScholar.scholarId) return true;
+      else {
+        if (scholarDetail.groupId === editedScholar.scholarId) return true;
+        return false;
+      }
+    })
+    .map(scholarDetail => {
+      if (scholarDetail.scholarId !== editedScholar.scholarId) return scholarDetail;
+      else {
+        return {
+          groupId: editedScholar.groupId,
+          name: editedScholar.name,
+          walletAddress: editedScholar.walletAddress,
+          totalSLP: scholarDetail.totalSLP,
+          lastClaimed: scholarDetail.lastClaimed,
+          averageSLP: scholarDetail.averageSLP,
+          days: scholarDetail.days,
+          claimedSLP: scholarDetail.claimedSLP,
+          unclaimedSLP: scholarDetail.unclaimedSLP,
+          scholarId: editedScholar.scholarId,
+          scholarShare: editedScholar.scholarShare
+        }
+      }
+    });
+    setData(newData);
+
+    db.collection('scholars').doc(editedScholar.scholarId).set({
+      groupId: editedScholar.groupId,
+      name: editedScholar.name,
+      uid: cookies.user,
+      walletAddress: editedScholar.walletAddress,
+      scholarShare: editedScholar.scholarShare
+    })
+    .then((docRef) => {
+      console.log("Successfully changed!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
   }
 
   function addScholar(scholar: Scholar) {
@@ -309,6 +412,7 @@ function Home() {
       name: scholar.name,
       uid: cookies.user,
       walletAddress: scholar.walletAddress,
+      scholarShare: scholar.scholarShare,
     })
     .then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
