@@ -62,8 +62,8 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
             onChange={handleChangeShare}
           />
         </div>
-        <div className="ScholarInput__sharing__manager">
-          <div className="ScholarInput__sharing__manager__label">{isMobile() ? 'Manager' : 'Manager Share'}</div>
+        <div className="ScholarInput__sharing__manager hidden-in-mobile">
+          <div className="ScholarInput__sharing__manager__label">Manager Share</div>
           <div
             className="ScholarInput__first__border"
           />
@@ -73,7 +73,18 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
             value={100 - scholarShare}
           />
         </div>
+      </div>
 
+      <div className="ScholarInput__sharing__manager hidden-in-desktop">
+        <div className="ScholarInput__sharing__manager__label">{isMobile() ? 'Manager' : 'Manager Share'}</div>
+        <div
+          className="ScholarInput__first__border"
+        />
+        <input
+          className="ScholarInput__sharing__manager__input"
+          disabled
+          value={100 - scholarShare}
+        />
       </div>
       <button
         className="ScholarInput__button Gilroy"

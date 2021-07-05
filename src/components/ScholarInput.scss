@@ -89,12 +89,6 @@
     justify-content: space-between;
     background-color: #FFFFFF;
     margin-bottom: rem(1);
-
-    @include mobile {
-      // width: rem(40);
-      height: auto;
-      flex-direction: column;
-    }
   }
 
     .ScholarInput__sharing__scholar {
@@ -137,7 +131,11 @@
       padding-left: rem(2);
 
       @include mobile {
+        background-color: #FFFFFF;
         border-left: none;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
+        border-radius: rem(.6);
+        margin-bottom: rem(1);
       }
     }
 

@@ -47,6 +47,19 @@
     }
   }
 
+  .Statistic__info__title__3 {
+    margin-top: rem(4);
+    margin-bottom: rem(2);
+    font-size: rem(1.8);
+    display: flex;
+    align-items: center;
+
+    @include mobile {
+      margin-top: rem(2.5);
+      margin-bottom: rem(1);
+    }
+  }
+
     .Statistic__info__title__detail {
       display: flex;
       align-items: center;
@@ -63,6 +76,10 @@
         align-items: center;
         justify-content: center;
         border-radius: rem(1);
+      }
+
+      .Statistic__info__title__detail__total {
+        font-size: rem(2.4);
       }
 
       .Statistic__info__title__detail__number {

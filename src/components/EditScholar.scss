@@ -7,6 +7,11 @@
   margin-left: rem(4);
   width: rem(73);
   background-color: transparent;
+
+  @include mobile {
+    width: rem(40);
+    margin-left: 0;
+  }
 }
 
   .EditScholar__first {
@@ -51,6 +56,10 @@
       &:focus {
         outline: none;
       }
+
+      @include mobile {
+        width: 60%;
+      }
     }
 
   .EditScholar__second {
@@ -89,10 +98,18 @@
       align-items: center;
       color: #828282;
       padding-left: rem(2);
+
+      @include mobile {
+        border-right: none;
+      }
     }
 
       .EditScholar__sharing__scholar__label {
         margin-right: rem(2);
+
+        @include mobile {
+          width: rem(8);
+        }
       }
 
       .EditScholar__sharing__scholar__input {
@@ -112,10 +129,22 @@
       border-left: 1px solid #C4C4C4;
       color: #828282;
       padding-left: rem(2);
+
+      @include mobile {
+        background-color: #FFFFFF;
+        border-left: none;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1) !important;
+        border-radius: rem(.6);
+        margin-bottom: rem(1);
+      }
     }
 
       .EditScholar__sharing__manager__label {
         margin-right: rem(2);
+
+        @include mobile {
+          width: rem(8);
+        }
       }
 
       .EditScholar__sharing__manager__input {

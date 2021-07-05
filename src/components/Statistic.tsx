@@ -70,7 +70,7 @@ const Statistic: React.FC<Props> = ({ className, scholars, data }) => {
       </div>
 
       <div className="Statistic__info total">
-        <div className="Statistic__info__title Gilroy">
+        <div className="Statistic__info__title__3 Gilroy">
           <img
             className="Statistic__info__title__icon"
             src={process.env.PUBLIC_URL + '/images/SLP.png'}
@@ -78,9 +78,14 @@ const Statistic: React.FC<Props> = ({ className, scholars, data }) => {
           Total SLP (S / M)
         </div>
         {!totalSLP ? <Loading /> : (
-          <div className="Statistic__info__title__detail__number Gilroy">
-            {`${Math.ceil(totalScholarSLP)} / ${totalSLP - Math.ceil(totalScholarSLP)}`}
-          </div>
+          <>
+            <div className="Statistic__info__title__detail__total Gilroy">
+              {totalSLP}
+            </div>
+            <div className="Statistic__info__title__detail__number Gilroy">
+              {`${Math.ceil(totalScholarSLP)} / ${totalSLP - Math.ceil(totalScholarSLP)}`}
+            </div>
+          </>
         )}
       </div>
 

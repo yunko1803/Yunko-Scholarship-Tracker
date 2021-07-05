@@ -6,6 +6,7 @@ import lodash from 'lodash';
 import web3 from 'web3';
 import Dropdown from './Dropdown';
 import { IGroup, Scholar } from '../models';
+import { isMobile } from '../utils/misc';
 
 type Props = {
   className?: string;
@@ -52,7 +53,7 @@ const EditScholar: React.FC<Props> = ({ className, scholar, groups, editScholar,
 
       <div className="EditScholar__sharing">
         <div className="EditScholar__sharing__scholar">
-          <div className="EditScholar__sharing__scholar__label">Scholar Share</div>
+          <div className="EditScholar__sharing__scholar__label">{isMobile() ? 'Scholar' : 'Scholar Share'}</div>
           <div
             className="EditScholar__first__border"
           />
@@ -63,7 +64,7 @@ const EditScholar: React.FC<Props> = ({ className, scholar, groups, editScholar,
             onChange={handleChangeShare}
           />
         </div>
-        <div className="EditScholar__sharing__manager">
+        <div className="EditScholar__sharing__manager hidden-in-mobile">
           <div className="EditScholar__sharing__manager__label">Manager Share</div>
           <div
             className="EditScholar__first__border"
@@ -74,8 +75,20 @@ const EditScholar: React.FC<Props> = ({ className, scholar, groups, editScholar,
             value={100 - scholarShare}
           />
         </div>
-
       </div>
+
+      <div className="ScholarInput__sharing__manager hidden-in-desktop">
+        <div className="ScholarInput__sharing__manager__label">{isMobile() ? 'Manager' : 'Manager Share'}</div>
+        <div
+          className="ScholarInput__first__border"
+        />
+        <input
+          className="ScholarInput__sharing__manager__input"
+          disabled
+          value={100 - scholarShare}
+        />
+      </div>
+
       <button
         className="EditScholar__button Gilroy"
         onClick={onClickAddScholar}
