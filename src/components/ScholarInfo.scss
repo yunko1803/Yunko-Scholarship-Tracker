@@ -12,6 +12,10 @@
   &--even {
     background-color: #f2f2f2;
   }
+
+  @include mobile {
+    width: 200%;
+  }
 }
 
 .ScholarInfo__loading {
@@ -28,7 +32,7 @@
   align-items: center;
 
   @include mobile {
-    width: rem(2);
+    min-width: rem(4);
   }
 }
 
@@ -42,8 +46,7 @@
   padding-right: rem(1);
 
   @include mobile {
-    padding-right: 0;
-    width: rem(7);
+    min-width: rem(9);
   }
 }
 
@@ -54,7 +57,7 @@
   width: rem(8);
 
   @include mobile {
-    width: rem(5);
+    min-width: rem(9);
   }
 }
 
@@ -64,6 +67,10 @@
   display: flex;
   align-items: center;
   width: rem(12);
+
+  @include mobile {
+    min-width: rem(10);
+  }
 }
 
 // .ScholarInfo__claimed {
@@ -78,8 +85,12 @@
   align-items: center;
   width: rem(10);
 
+  // @include mobile {
+  //   width: rem(6);
+  // }
+
   @include mobile {
-    width: rem(6);
+    min-width: rem(8);
   }
 }
 
@@ -90,6 +101,7 @@
   width: rem(8);
 
   @include mobile {
+    min-width: rem(6);
   }
 }
 
@@ -100,6 +112,7 @@
   width: rem(8);
 
   @include mobile {
+    min-width: rem(7);
   }
 }
 
@@ -110,6 +123,7 @@
   width: rem(7);
 
   @include mobile {
+    min-width: rem(7);
   }
 }
 
@@ -120,6 +134,7 @@
   width: rem(10);
 
   @include mobile {
+    min-width: rem(8);
   }
 }
 
@@ -128,6 +143,10 @@
   align-items: center;
   justify-content: flex-end;
   width: rem(6);
+
+  @include mobile {
+    min-width: rem(8);
+  }
 }
 
   .ScholarInfo__action__icon {

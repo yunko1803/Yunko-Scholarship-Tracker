@@ -7,6 +7,11 @@
   margin-left: rem(4);
   width: rem(73);
   background-color: transparent;
+
+  @include mobile {
+    width: rem(40);
+    margin-left: 0;
+  }
 }
 
   .ScholarInput__first {
@@ -51,6 +56,10 @@
       &:focus {
         outline: none;
       }
+
+      @include mobile {
+        width: 60%;
+      }
     }
 
   .ScholarInput__second {
@@ -80,6 +89,12 @@
     justify-content: space-between;
     background-color: #FFFFFF;
     margin-bottom: rem(1);
+
+    @include mobile {
+      // width: rem(40);
+      height: auto;
+      flex-direction: column;
+    }
   }
 
     .ScholarInput__sharing__scholar {
@@ -89,10 +104,18 @@
       align-items: center;
       color: #828282;
       padding-left: rem(2);
+
+      @include mobile {
+        border-right: none;
+      }
     }
 
       .ScholarInput__sharing__scholar__label {
         margin-right: rem(2);
+
+        @include mobile {
+          width: rem(8);
+        }
       }
 
       .ScholarInput__sharing__scholar__input {
@@ -112,10 +135,18 @@
       border-left: 1px solid #C4C4C4;
       color: #828282;
       padding-left: rem(2);
+
+      @include mobile {
+        border-left: none;
+      }
     }
 
       .ScholarInput__sharing__manager__label {
         margin-right: rem(2);
+
+        @include mobile {
+          width: rem(8);
+        }
       }
 
       .ScholarInput__sharing__manager__input {

@@ -32,6 +32,17 @@ declare global {
   }
 }
 
+async function fetchArena(link: string) {
+  const rep = await get<any>(link);
+  return rep.success ? rep.items : [{
+    winTotal: -1,
+    rank: -1,
+    loseTotal: -1,
+    drawTotal: -1,
+    elo: -1
+  }];
+}
+
 async function loadData(
   hashId: number,
   scholars: Scholar[],
@@ -41,7 +52,8 @@ async function loadData(
     return async () => {
       let address = scholar.walletAddress;
       const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
-      const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+      // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+      const items = await fetchArena(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
       const today = new Date();
       const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
       const differenceDays = Math.floor(difference) + 1;

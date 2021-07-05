@@ -14,7 +14,7 @@
     align-self: center;
 
     @include mobile {
-      width: 100%;
+      width: 310%;
     }
   }
 
@@ -26,6 +26,10 @@
     text-align: left;
     align-items: center;
     justify-content: space-between;
+
+    @include mobile {
+      width: 200%;
+    }
 
     &--id {
       min-width: rem(4);
@@ -67,6 +71,7 @@
       }
 
       @include mobile {
+        min-width: rem(10);
       }
     }
 
@@ -83,6 +88,10 @@
           color: $primary;
           transform: rotate(180deg);
         }
+      }
+
+      @include mobile {
+        min-width: rem(11);
       }
     }
 
@@ -118,6 +127,7 @@
       }
 
       @include mobile {
+        min-width: rem(7);
       }
     }
 
@@ -137,6 +147,7 @@
       }
 
       @include mobile {
+        min-width: rem(7);
       }
     }
 
@@ -154,6 +165,10 @@
           transform: rotate(180deg);
         }
       }
+
+      @include mobile {
+        min-width: rem(7);
+      }
     }
 
     &--rank {
@@ -169,6 +184,10 @@
           color: $primary;
           transform: rotate(180deg);
         }
+      }
+
+      @include mobile {
+        min-width: rem(9);
       }
     }
 

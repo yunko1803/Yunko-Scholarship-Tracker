@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { useCookies } from "react-cookie";
 import Dropdown from './Dropdown';
 import { IGroup, Scholar } from '../models';
+import { isMobile } from '../utils/misc';
 
 type Props = {
   className?: string;
@@ -50,7 +51,7 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
 
       <div className="ScholarInput__sharing">
         <div className="ScholarInput__sharing__scholar">
-          <div className="ScholarInput__sharing__scholar__label">Scholar Share</div>
+          <div className="ScholarInput__sharing__scholar__label">{isMobile() ? 'Scholar' : 'Scholar Share'}</div>
           <div
             className="ScholarInput__first__border"
           />
@@ -62,7 +63,7 @@ const ScholarInput: React.FC<Props> = ({ className, groups, addScholar }) => {
           />
         </div>
         <div className="ScholarInput__sharing__manager">
-          <div className="ScholarInput__sharing__manager__label">Manager Share</div>
+          <div className="ScholarInput__sharing__manager__label">{isMobile() ? 'Manager' : 'Manager Share'}</div>
           <div
             className="ScholarInput__first__border"
           />

@@ -32,7 +32,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
       <div className="ScholarInfo__average">
         {scholar.averageSLP}
       </div>
-      <div className="ScholarInfo__unclaimed hidden-in-mobile">
+      <div className="ScholarInfo__unclaimed">
         {scholar.totalSLP - scholar.claimedSLP}
       </div>
       {/* <div className="ScholarInfo__claimed hidden-in-mobile">
@@ -41,22 +41,22 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
       <div className="ScholarInfo__total">
         {scholar.totalSLP}
       </div>
-      <div className="ScholarInfo__days hidden-in-mobile">
+      <div className="ScholarInfo__days">
         {scholar.days}
       </div>
       <div className="ScholarInfo__mmr">
         {scholar.elo}
         {/* soon */}
       </div>
-      <div className="ScholarInfo__rank hidden-in-mobile">
+      <div className="ScholarInfo__rank">
         {scholar.rank}
         {/* soon */}
       </div>
-      <div className="ScholarInfo__sharing hidden-in-mobile">
+      <div className="ScholarInfo__sharing">
         {`${Math.ceil(scholar.totalSLP * scholarSharing)} / ${scholar.totalSLP - Math.ceil(scholar.totalSLP * scholarSharing)}`}
       </div>
       <div
-        className="ScholarInfo__action hidden-in-mobile"
+        className="ScholarInfo__action"
       >
         <div
           className="ScholarInfo__action__icon edit"
