@@ -43,6 +43,10 @@ async function fetchArena(link: string) {
   }];
 }
 
+function createProxiedUrl(url: string) {
+  return `https://images${~~(Math.random() * 3333)}-focus-opensocial.googleusercontent.com/gadgets/proxy?container=none&url=${url}`;
+}
+
 async function loadData(
   hashId: number,
   scholars: Scholar[],
@@ -51,14 +55,21 @@ async function loadData(
   let promiseAry = scholars.map(scholar => {
     return async () => {
       let address = scholar.walletAddress;
-      const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
+      // const { total, last_claimed_item_at, claimable_total, } = await get<any>(createProxiedUrl(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`));
+      const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://game-api.skymavis.com/game-api/clients/${address}/items/1`);
       // const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
-      const items = await fetchArena(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+      // https://game-api.skymavis.com/game-api/clients/ronin:c8ec0d5082bc2125ae986c9877921b351b33f1b5/items/1
+      // const items = await fetchArena(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
       const today = new Date();
       const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
       const differenceDays = Math.floor(difference) + 1;
       const averageSLP = Math.floor((total - claimable_total) / differenceDays);
-      const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
+      // const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
+      let winTotal = -1;
+      let rank = -1;
+      let loseTotal = -1;
+      let drawTotal = -1;
+      let elo = -1;
 
       return {
         groupId: scholar.groupId,
