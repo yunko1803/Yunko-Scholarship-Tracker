@@ -15,6 +15,7 @@
     "@types/superagent": "^4.1.11",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.5",
+    "export-from-json": "^1.4.0",
     "firebase": "^8.6.3",
     "lodash": "^4.17.21",
     "node-sass": "^4.14.1",

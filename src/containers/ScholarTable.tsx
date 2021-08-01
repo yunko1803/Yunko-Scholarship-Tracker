@@ -7,19 +7,22 @@ import ScholarTableHeader from './ScholarTableHeader';
 import { Scholar, IScholarInfo } from '../models/index';
 import ScholarList from './ScholarList';
 import { useStateWithPartialSetter } from '../hooks/utils';
+import exportFromJSON from 'export-from-json'
 
 type Props = {
   className?: string;
   groupId: string;
   scholars: Scholar[];
-  data?: IScholarInfo[];
+  unsortedData?: IScholarInfo[];
   onClickDeleteScholar: (scholar: IScholarInfo) => void;
   propagateData: (data: any) => void;
   manager: string;
   onClickEditScholar: (scholar: Scholar) => void;
 };
 
-const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onClickDeleteScholar, propagateData, manager, onClickEditScholar }) => {
+const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, unsortedData, onClickDeleteScholar, propagateData, manager, onClickEditScholar }) => {
+  const fileName = 'scholarship'
+  const exportType = 'xls'
 
   const [sorter, setSorter] = useStateWithPartialSetter<{
     iteratee: string;
@@ -29,17 +32,23 @@ const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, data, onC
     order: 'desc',
   });
 
-  const sorted = orderBy((data), sorter.iteratee, sorter.order);
+  const data = orderBy((unsortedData), sorter.iteratee, sorter.order);
 
   return (
     <div className={classNames('ScholarTable', className)}>
+      <button
+        className="ScholarTable__excel"
+        onClick={() => exportFromJSON({ data, fileName, exportType }) }
+      >
+        <span className="Gilroy">Excel</span>
+      </button>
       <ScholarTableHeader
         onClickSortByFeature={handleSorterClick}
         sorter={sorter}
       />
       <ScholarList
         scholars={scholars}
-        data={sorted}
+        data={data}
         onClickDeleteScholar={onClickDeleteScholar}
         propagateData={propagateData}
         groupId={groupId}
