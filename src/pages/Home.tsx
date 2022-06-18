@@ -50,33 +50,20 @@ async function loadData(
 ): Promise<void> {
   let promiseAry = scholars.map(scholar => {
     return async () => {
-      let address = scholar.walletAddress;
-      // const { total, last_claimed_item_at, claimable_total, } = await get<any>(createProxiedUrl(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`));
-      const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://game-api.skymavis.com/game-api/clients/${address}/items/1`);
-      // ranking
-      // const { items } = await get<any>(`https://game-api.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
-      // that's it
-      // https://game-api.skymavis.com/game-api/clients/ronin:c8ec0d5082bc2125ae986c9877921b351b33f1b5/items/1
-      // const items = await fetchArena(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
-      // console.log(items);
+      let address = scholar.walletAddress!.replace('0x', 'ronin:');
+      const newSLPdata = await get<any>(`https://axie-scho-tracker-server.herokuapp.com/api/account/${address}`);
+      const last_claimed_item_at = newSLPdata.slpData.lastClaim;
+      const total = newSLPdata.slpData.totalSlp;
+
       const today = new Date();
       const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
       const differenceDays = Math.floor(difference) + 1;
-      const averageSLP = Math.floor((total - claimable_total) / differenceDays);
+      const averageSLP = Math.floor(total / differenceDays);
       let winTotal = -1;
       let rank = -1;
       let loseTotal = -1;
       let drawTotal = -1;
       let elo = -1;
-      // ranking
-      // if (!!items) {
-      //   winTotal = items[1].winTotal;
-      //   rank = items[1].rank;
-      //   loseTotal = items[1].loseTotal;
-      //   drawTotal = items[1].drawTotal;
-      //   elo = items[1].elo;
-      // }
-      // const { winTotal, rank, loseTotal, drawTotal, elo } = items[1];
 
       return {
         groupId: scholar.groupId,
@@ -86,8 +73,8 @@ async function loadData(
         lastClaimed: last_claimed_item_at,
         averageSLP: averageSLP,
         days: differenceDays,
-        claimedSLP: claimable_total,
-        unclaimedSLP: total - claimable_total,
+        claimedSLP: -1,
+        unclaimedSLP: newSLPdata.slpData.roninSlp,
         scholarId: scholar.scholarId,
         scholarShare: scholar.scholarShare,
         roninAddress: scholar.walletAddress!.replace('0x', 'ronin:'),
@@ -322,14 +309,19 @@ function Home() {
     }];
     setScholars(newScholars);
 
-    let address = scholar.walletAddress;
-    const { total, last_claimed_item_at, claimable_total, } = await get<any>(`https://lunacia.skymavis.com/game-api/clients/${address}/items/1`);
-    const { items } = await get<any>(`https://lunacia.skymavis.com/game-api/leaderboard?client_id=${address}&offset=0&limit=0`);
+    let address = scholar.walletAddress!.replace('0x', 'ronin:');
+    const newSLPdata = await get<any>(`https://axie-scho-tracker-server.herokuapp.com/api/account/${address}`);
+    const last_claimed_item_at = newSLPdata.slpData.lastClaim;
+    const total = newSLPdata.slpData.totalSlp;
     const today = new Date();
     const difference = Math.abs(today.getTime() - last_claimed_item_at * 1000) / 86400000;
     const differenceDays = Math.floor(difference) + 1;
-    const averageSLP = Math.floor((total - claimable_total) / differenceDays);
-    const { winTotal, rank, loseTotal, drawTotal, elo } = items[0];
+    const averageSLP = Math.floor(total / differenceDays);
+    let winTotal = -1;
+    let rank = -1;
+    let loseTotal = -1;
+    let drawTotal = -1;
+    let elo = -1;
 
     const newData =  {
       groupId: scholar.groupId,
@@ -339,8 +331,8 @@ function Home() {
       lastClaimed: last_claimed_item_at,
       averageSLP: averageSLP,
       days: differenceDays,
-      claimedSLP: claimable_total,
-      unclaimedSLP: total - claimable_total,
+      claimedSLP: -1,
+      unclaimedSLP: total,
       scholarId,
       scholarShare: scholar.scholarShare,
       roninAddress: scholar.walletAddress!.replace('0x', 'ronin:'),

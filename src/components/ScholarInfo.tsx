@@ -33,7 +33,7 @@ const ScholarInfo: React.FC<Props> = ({ className, scholar, index, onClickDelete
         {scholar.averageSLP}
       </div>
       <div className="ScholarInfo__unclaimed">
-        {scholar.totalSLP - scholar.claimedSLP}
+        {scholar.totalSLP}
       </div>
       {/* <div className="ScholarInfo__claimed hidden-in-mobile">
         {scholar.claimedSLP}

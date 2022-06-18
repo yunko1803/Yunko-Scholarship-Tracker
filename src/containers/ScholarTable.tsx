@@ -34,8 +34,6 @@ const ScholarTable: React.FC<Props> = ({ className, groupId, scholars, unsortedD
 
   const data = orderBy((unsortedData), sorter.iteratee, sorter.order);
 
-  console.log(data);
-
   return (
     <div className={classNames('ScholarTable', className)}>
       <button
