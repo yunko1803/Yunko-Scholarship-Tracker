@@ -51,6 +51,7 @@ export async function get<T>(url: string, query?: any, options: RequestInit = {}
   const result = await fetch(url, {
     ...options,
     headers: {
+      mode : 'no-cors',
       ...options.headers,
     },
   });
